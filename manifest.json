@@ -1,6 +1,6 @@
 {
     "name": "Velvet",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Eases the browsing of Derpibooru by providing new functionalities",
     "manifest_version": 2,
     "icons": {
@@ -8,9 +8,8 @@
         "48": "icons/icon-48.png",
         "128": "icons/icon-128.png"
     },
-
     "permissions": ["storage"],
-
+    "web_accessible_resources": [ "icons/lewdIcon.png" ],
     "content_scripts": [
         {
             "matches": ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*"],
