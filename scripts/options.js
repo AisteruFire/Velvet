@@ -62,8 +62,6 @@ content.setAttribute("data-tab", "velvet");
 
     content.appendChild(field);
 
-optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
-
     //Additional tags
     tempTag = document.createElement("h4");
     tempTag.innerHTML = "Sorting tags";
@@ -119,6 +117,26 @@ optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //In
         field.appendChild(list);
 
     content.appendChild(field);
+
+    //Credits
+    tempTag = document.createElement("h4");
+    tempTag.innerHTML = "Credits";
+    content.appendChild(tempTag);
+
+    field = document.createElement("div");
+    field.setAttribute("class", "field");
+
+        tempTag = document.createElement("p");
+        tempTag.innerHTML = "Velvet's head : <a href='http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330'>http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330</a>";
+        field.appendChild(tempTag);
+
+        tempTag = document.createElement("p");
+        tempTag.innerHTML = "Velvet's cutie mark : <a href='http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132'>http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132</a>";
+        field.appendChild(tempTag);
+
+    content.appendChild(field);
+
+optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
 
 // ---------- Saving the user's preferences on form submission ----------
 
