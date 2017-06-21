@@ -1,7 +1,7 @@
 /*
     options.js
 
-    This file generates a new tab in the options page on derpibooru. It contains the options for Velvet, such as aliases and the lewd tags
+    This file generates a new tab in the options page on derpibooru. It contains the options for Velvet, such as aliases and the quick tags
 */
 
 // ---------- Creating the tab ----------
@@ -18,25 +18,25 @@ var content = document.createElement("div");
 content.setAttribute("class", "block__tab hidden");
 content.setAttribute("data-tab", "velvet");
 
-    //Lewd tags
+    //quick tags
     var tempTag = document.createElement("h4");
-    tempTag.innerHTML = "Lewd tags";
+    tempTag.innerHTML = "Quick search";
     content.appendChild(tempTag);
 
     var field = document.createElement("div");  //Fields are divs that are often reused to split sections into discernable zones
     field.setAttribute("class", "field");
 
         tempTag = document.createElement("label");
-        tempTag.setAttribute("for", "lewd_tags");
+        tempTag.setAttribute("for", "quick_tags");
         tempTag.innerHTML = "Tags to add to the search in a snap <strong>(coming soon)</strong>";
         field.appendChild(tempTag);
 
         //TODO
         /*
-        var lewdTags = document.querySelector("div.fancy-tag-edit").parentNode.cloneNode(true);    //Reusing the native tag field of the website
-        lewdTags.replaceChild(tempTag, lewdTags.firstChild);
-        lewdTags.innerHTML = lewdTags.innerHTML.replace(/watched\_tag\_list/g, "lewd_tags");
-        field.appendChild(lewdTags);
+        var quickTags = document.querySelector("div.fancy-tag-edit").parentNode.cloneNode(true);    //Reusing the native tag field of the website
+        quickTags.replaceChild(tempTag, quickTags.firstChild);
+        quickTags.innerHTML = quickTags.innerHTML.replace(/watched\_tag\_list/g, "quick_tags");
+        field.appendChild(quickTags);
         */
 
     content.appendChild(field);
@@ -65,7 +65,7 @@ optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //In
 
 document.querySelector("form.edit_user").addEventListener("submit", function(){
     chrome.storage.sync.set({
-        // TODO lewdTags: ,
+        // TODO quickTags: ,
         aliases: document.getElementById("user_aliases").value
     }, function(){});
 });
@@ -74,9 +74,9 @@ document.querySelector("form.edit_user").addEventListener("submit", function(){
 
 chrome.storage.sync.get({
     //Default values
-    lewdTags: "",
+    quickTags: "",
     aliases: ""
 }, function(data){
-    //TODO lewd tags
+    //TODO quick tags
     document.getElementById("user_aliases").value = data.aliases;
 });
