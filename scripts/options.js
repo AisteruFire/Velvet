@@ -18,7 +18,7 @@ var content = document.createElement("div");
 content.setAttribute("class", "block__tab hidden");
 content.setAttribute("data-tab", "velvet");
 
-    //quick tags
+    //Quick tags
     var tempTag = document.createElement("h4");
     tempTag.innerHTML = "Quick search";
     content.appendChild(tempTag);
@@ -28,7 +28,7 @@ content.setAttribute("data-tab", "velvet");
 
         tempTag = document.createElement("label");
         tempTag.setAttribute("for", "quick_tags");
-        tempTag.innerHTML = "Tags to add to the search in a snap <strong>(coming soon)</strong>";
+        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed. <strong>(coming soon)</strong>";
         field.appendChild(tempTag);
 
         //TODO
@@ -42,12 +42,16 @@ content.setAttribute("data-tab", "velvet");
     content.appendChild(field);
 
     //Aliases
+    tempTag = document.createElement("h4");
+    tempTag.innerHTML = "Aliases";
+    content.appendChild(tempTag);
+
     field = document.createElement("div");
     field.setAttribute("class", "field");
 
         tempTag = document.createElement("label");
         tempTag.setAttribute("for", "user_aliases");
-        tempTag.innerHTML = "Aliases used to shorten commonly used requests by assigning an alias to multiple tags.";
+        tempTag.innerHTML = "Aliases used to shorten commonly used requests by assigning an equivalent to multiple tags.";
         field.appendChild(tempTag);
 
         var aliases = document.createElement("textarea");
@@ -60,6 +64,62 @@ content.setAttribute("data-tab", "velvet");
     content.appendChild(field);
 
 optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
+
+    //Additional tags
+    tempTag = document.createElement("h4");
+    tempTag.innerHTML = "Sorting tags";
+    content.appendChild(tempTag);
+
+    field = document.createElement("div");
+    field.setAttribute("class", "field");
+
+        tempTag = document.createElement("p");
+        tempTag.innerHTML = "The following tags are added by Velvet to ease searches. They are used as any other normal tag :";
+        field.appendChild(tempTag);
+
+        var list = document.createElement("ul");
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>DESC</strong> : sort results descending (default). Has to be used in conjunction with a sorting type below.";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>ASC</strong> : sort results ascending. Has to be used in conjunction with a sorting type below.";
+            list.appendChild(tempTag);
+
+            list.appendChild(document.createElement("br"));
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>DATE</strong> : sort results by creation date (default)";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>SCORE</strong> : sort results by score";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>RELEVANCE</strong> : sort results by relevance";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>WIDTH</strong> : sort results by width";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>HEIGHT</strong> : sort results by height";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>COMMENTS</strong> : sort results by number of comments";
+            list.appendChild(tempTag);
+
+            tempTag = document.createElement("li");
+            tempTag.innerHTML = "<strong>RANDOM</strong> : sort results randomly";
+            list.appendChild(tempTag);
+
+        field.appendChild(list);
+
+    content.appendChild(field);
 
 // ---------- Saving the user's preferences on form submission ----------
 

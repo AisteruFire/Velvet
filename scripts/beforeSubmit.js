@@ -27,11 +27,11 @@ chrome.storage.sync.get({
                 document.getElementById("q").value = data.quickTags.trim();
         });
 
-            //Version with letter
+            //Without icon
             /*
             var i = document.createElement("i");
             i.setAttribute("style", "font-weight: bold; font-style: normal; font-size: 130%");
-            i.innerHTML = "L";
+            i.innerHTML = "V";
             quickButton.appendChild(i);
             */
 
