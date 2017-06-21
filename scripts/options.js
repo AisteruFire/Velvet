@@ -28,16 +28,15 @@ content.setAttribute("data-tab", "velvet");
 
         tempTag = document.createElement("label");
         tempTag.setAttribute("for", "quick_tags");
-        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed. <strong>(coming soon)</strong>";
+        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed.";
         field.appendChild(tempTag);
 
-        //TODO
-        /*
-        var quickTags = document.querySelector("div.fancy-tag-edit").parentNode.cloneNode(true);    //Reusing the native tag field of the website
-        quickTags.replaceChild(tempTag, quickTags.firstChild);
-        quickTags.innerHTML = quickTags.innerHTML.replace(/watched\_tag\_list/g, "quick_tags");
+        var quickTags = document.createElement("textarea");
+        quickTags.setAttribute("class", "input input--wide");
+        quickTags.setAttribute("autocapitalize", "none");
+        quickTags.setAttribute("id", "user_quick_tags");
+        quickTags.setAttribute("placeholder", "Quick tags to insert with the Velvet button");
         field.appendChild(quickTags);
-        */
 
     content.appendChild(field);
 
@@ -125,7 +124,7 @@ optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //In
 
 document.querySelector("form.edit_user").addEventListener("submit", function(){
     chrome.storage.sync.set({
-        // TODO quickTags: ,
+        quickTags: document.getElementById("user_quick_tags").value,
         aliases: document.getElementById("user_aliases").value
     }, function(){});
 });
@@ -137,6 +136,6 @@ chrome.storage.sync.get({
     quickTags: "",
     aliases: ""
 }, function(data){
-    //TODO quick tags
+    document.getElementById("user_quick_tags").value = data.quickTags;
     document.getElementById("user_aliases").value = data.aliases;
 });

@@ -27,14 +27,14 @@ for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
                 newLink += "&sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]];
         }
 
-        newLink = newLink.replace(new RegExp("\(AND\|OR\)?\(\\+\)?" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
+        newLink = newLink.replace(new RegExp("\(AND|OR|\\,|\\&\\&|\\|\\|\)?\(\\+\)?" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
     }
 }
 
 // ---------- ASC/DESC ----------
 if (~newLink.indexOf("ASC"))
 {
-    newLink = newLink.replace(/(AND|OR)?(\+)?ASC/g, "");    //Removing from the query
+    newLink = newLink.replace(/(AND|OR|\,|\&\&|\|\|)?(\+)?ASC/g, "");    //Removing from the query
 
     if (~newLink.indexOf("&sd="))
         newLink = newLink.replace(/sd=desc/, "sd=asc"); //If the sorting is desc, changing it to asc
@@ -43,7 +43,7 @@ if (~newLink.indexOf("ASC"))
 }
 else if (~newLink.indexOf("DESC"))
 {
-    newLink = newLink.replace(/(AND|OR)?(\+)?DESC/g, "");   //Removing from the query
+    newLink = newLink.replace(/(AND|OR|\,|\&\&|\|\|)?(\+)?DESC/g, "");   //Removing from the query
 
     if (~newLink.indexOf("&sd="))
         newLink = newLink.replace(/sd=asc/, "sd=desc"); //If the sorting is asc, changing it to desc
@@ -55,8 +55,8 @@ else if (~newLink.indexOf("DESC"))
 newLink = newLink.replace(/\+{2,}/g, "+"); //Unnecessary plusses
 
 //If the query is empty, we put the * wildcard
-if (newLink.match(/\?q=\+*(\&.*)?$/))
-    newLink = newLink.replace(/(\?q=.*)\&?/, "?q=*");
+if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*\&/))
+    newLink = newLink.replace(/\?q=\+*/, "?q=*");
 
 if (newLink !== oldLink)
     window.location.replace(newLink);
