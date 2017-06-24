@@ -10,6 +10,7 @@ var tab = document.createElement("a");
 tab.setAttribute("data-click-tab", "velvet");
 tab.setAttribute("href", "#");
 tab.setAttribute("style", "color: darkorchid");
+tab.setAttribute("id", "velvet");
 tab.innerHTML = "Velvet";
 optionsTable.firstChild.appendChild(tab);
 
@@ -28,7 +29,7 @@ content.setAttribute("data-tab", "velvet");
 
         tempTag = document.createElement("label");
         tempTag.setAttribute("for", "quick_tags");
-        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed.";
+        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed. Leave empty to disable Velvet's icon.";
         field.appendChild(tempTag);
 
         var quickTags = document.createElement("textarea");
