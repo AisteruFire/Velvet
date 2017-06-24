@@ -6,8 +6,8 @@
 
 //Since sync.get is asynchronous, everything is done after retrieving the user's preferences
 chrome.storage.sync.get({
-    quickTags: "",
-    aliases: ""
+    quickTags: DEFAULT_QUICK_TAGS,
+    aliases: DEFAULT_ALIASES
 }, function(data){
     // ---------- Lewd button ----------
 

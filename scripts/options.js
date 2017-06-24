@@ -151,8 +151,8 @@ document.querySelector("form.edit_user").addEventListener("submit", function(){
 
 chrome.storage.sync.get({
     //Default values
-    quickTags: "",
-    aliases: ""
+    quickTags: DEFAULT_QUICK_TAGS,
+    aliases: DEFAULT_ALIASES
 }, function(data){
     document.getElementById("user_quick_tags").value = data.quickTags;
     document.getElementById("user_aliases").value = data.aliases;

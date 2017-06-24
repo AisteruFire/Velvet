@@ -1,6 +1,6 @@
 {
     "name": "Velvet",
-    "version": "0.9",
+    "version": "0.9.2",
     "description": "Eases the browsing of Derpibooru by providing new functionalities.",
     "manifest_version": 2,
     "icons": {
@@ -13,17 +13,17 @@
     "content_scripts": [
         {
             "matches": ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*"],
-            "js": ["scripts/beforeSubmit.js"],
+            "js": ["scripts/constants.js", "scripts/beforeSubmit.js"],
             "run_at": "document_end"
         },
         {
             "matches": ["*://*.derpibooru.org/search*", "*://*.trixiebooru.org/search*"],
-            "js": ["scripts/afterSubmit.js"],
+            "js": ["scripts/constants.js", "scripts/afterSubmit.js"],
             "run_at": "document_start"
         },
         {
             "matches": ["*://*.derpibooru.org/settings", "*://*.trixiebooru.org/settings"],
-            "js": ["scripts/options.js"],
+            "js": ["scripts/constants.js", "scripts/options.js"],
             "run_at": "document_end"
         }
     ]
