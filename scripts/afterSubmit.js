@@ -22,7 +22,7 @@ for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
             sortingTypeFound = true;
 
             if (~newLink.indexOf("&sf="))
-                newLink = newLink.replace(/sf=(.*)\&?/, SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
+                newLink = newLink.replace(/sf=.*\&?/, "sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
             else
                 newLink += "&sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]];
         }
@@ -53,6 +53,7 @@ else if (~newLink.indexOf("DESC"))
 
 //Cleaning the query from unnecessary characters
 newLink = newLink.replace(/\+{2,}/g, "+"); //Unnecessary plusses
+newlink = newLink.replace(/\=\+/g, "").replace(/\+\&/g, ""); //Plusses remaining after removing the sorting tags
 
 //If the query is empty, we put the * wildcard
 if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*\&/))
