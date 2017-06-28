@@ -1,18 +1,18 @@
 /*
-    options.js
+    settings.js
 
-    This file generates a new tab in the options page on derpibooru. It contains the options for Velvet, such as aliases and the quick tags
+    This file generates a new tab in the settings page on derpibooru. It contains the settings for Velvet, such as aliases and the quick tags
 */
 
 // ---------- Creating the tab ----------
-var optionsTable = document.getElementById("js-setting-table");
+var settingsTable = document.getElementById("js-setting-table");
 var tab = document.createElement("a");
 tab.setAttribute("data-click-tab", "velvet");
 tab.setAttribute("href", "#");
 tab.setAttribute("style", "color: darkorchid");
 tab.setAttribute("id", "velvet");
 tab.innerHTML = "Velvet";
-optionsTable.firstChild.appendChild(tab);
+settingsTable.firstChild.appendChild(tab);
 
 // ---------- Creating the content of the tab ----------
 var content = document.createElement("div");
@@ -137,7 +137,7 @@ content.setAttribute("data-tab", "velvet");
 
     content.appendChild(field);
 
-optionsTable.insertBefore(content, optionsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
+settingsTable.insertBefore(content, settingsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
 
 // ---------- Saving the user's preferences on form submission ----------
 
