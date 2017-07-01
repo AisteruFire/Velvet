@@ -1,7 +1,7 @@
 /*
     beforeSubmit.js
 
-    This file contains everything that is executed before the form is sent to the server, such as aliases replacements
+    This file contains everything that is executed before the form is sent to the server, such as aliases replacements and Velvet quick tags
 */
 
 //Since sync.get is asynchronous, everything is done after retrieving the user's preferences
@@ -9,7 +9,8 @@ chrome.storage.sync.get({
     quickTags: DEFAULT_QUICK_TAGS,
     aliases: DEFAULT_ALIASES
 }, function(data){
-    // ---------- Lewd button ----------
+    // ---------- Quick tags button ----------
+    data.quickTags = data.quickTags.trim();
 
     if (data.quickTags)
     {
@@ -21,10 +22,10 @@ chrome.storage.sync.get({
         quickButton.addEventListener("click", function(){
             var field = document.getElementById("q");
 
-            if (document.getElementById("q").value)
-                document.getElementById("q").value += " AND (" + data.quickTags.trim() + ")";
-            else
-                document.getElementById("q").value = data.quickTags.trim();
+            if (!field.value)
+                field.value = data.quickTags;
+            else if (!~field.value.indexOf(data.quickTags)) //Adding the quick tags only if they're not already there
+                field.value += " AND (" + data.quickTags + ")";
         });
 
             //Without icon
