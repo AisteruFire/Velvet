@@ -14,34 +14,21 @@ chrome.storage.sync.get({
 
     if (data.quickTags)
     {
-        var quickButton = document.createElement("button");
-        quickButton.setAttribute("title", "Velvet quick search");
-        quickButton.setAttribute("class", "header__search__button");
-        quickButton.setAttribute("type", "submit");
-        quickButton.setAttribute("style", "line-height: 0");
-        quickButton.addEventListener("click", function(){
-            var field = document.getElementById("q");
+        var searchBar = document.querySelector("form.header__search");
+        searchBar.insertAdjacentHTML("beforeend", '<button title="' + QUICK_TAGS_BUTTON_TITLE + '" class="header__search__button" type="submit" style="line-height: 0">');
 
-            if (!field.value)
-                field.value = data.quickTags;
-            else if (!~field.value.indexOf(data.quickTags)) //Adding the quick tags only if they're not already there
-                field.value += " AND (" + data.quickTags + ")";
+        var quickButton = document.querySelector('button[title="' + QUICK_TAGS_BUTTON_TITLE + '"]');
+        var searchField = document.getElementById("q");
+
+        quickButton.addEventListener("click", function(){
+            if (!searchField.value)   //If the search field is empty, we just add the quick tags
+                searchField.value = data.quickTags;
+            else if (!~searchField.value.indexOf(data.quickTags)) //Adding the quick tags only if they're not already there
+                searchField.value += " AND (" + data.quickTags + ")";
         });
 
-            //Without icon
-            /*
-            var i = document.createElement("i");
-            i.setAttribute("style", "font-weight: bold; font-style: normal; font-size: 130%");
-            i.innerHTML = "V";
-            quickButton.appendChild(i);
-            */
-
-            var image = document.createElement("img");
-            image.setAttribute("style", "height: 21px;");
-            image.src = chrome.runtime.getURL("../icons/velvetIcon.png");
-            quickButton.appendChild(image);
-
-        document.querySelector("form.header__search").appendChild(quickButton);
+        //Adding the button's image
+        quickButton.insertAdjacentHTML("beforeend", '<img style="height: 21px;" src="' + chrome.runtime.getURL("../icons/velvetIcon.png") +'" />');
     }
 
     // ---------- Parsing the aliases ----------
@@ -59,10 +46,10 @@ chrome.storage.sync.get({
         }
 
         // ---------- Replacing the aliases ----------
-        document.querySelector("form.header__search").addEventListener("submit", function(){
+        searchBar.addEventListener("submit", () => {
             for (var alias of aliases)
             {
-                document.getElementById("q").value = document.getElementById("q").value.replace(new RegExp("\\(?" + alias.split("=")[0].trim() + "\\)?", "ig"), "(" + alias.split("=")[1].trim() + ")");
+                searchField.value = searchField.value.replace(new RegExp("\\(?" + alias.split("=")[0].trim() + "\\)?", "ig"), "(" + alias.split("=")[1].trim() + ")");
             }
         });
     }

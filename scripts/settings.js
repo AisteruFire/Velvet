@@ -4,157 +4,73 @@
     This file generates a new tab in the settings page on derpibooru. It contains the settings for Velvet, such as aliases and the quick tags
 */
 
+const settingsTable = document.getElementById('js-setting-table');
+const tabSelect = settingsTable.firstChild;
+
 // ---------- Creating the tab ----------
-var settingsTable = document.getElementById("js-setting-table");
-var tab = document.createElement("a");
-tab.setAttribute("data-click-tab", "velvet");
-tab.setAttribute("href", "#");
-tab.setAttribute("style", "color: darkorchid");
-tab.setAttribute("id", "velvet");
-tab.innerHTML = "Velvet";
-settingsTable.firstChild.appendChild(tab);
+const velvetTab = '<a id="velvet" href="#" data-click-tab="velvet" style="color:darkorchid">Velvet</a>';
+tabSelect.insertAdjacentHTML('beforeend', velvetTab);
 
 // ---------- Creating the content of the tab ----------
-var content = document.createElement("div");
-content.setAttribute("class", "block__tab hidden");
-content.setAttribute("data-tab", "velvet");
+const content = `
+  <div class="block__tab hidden" data-tab="velvet">
+    <h4>Quick search</h4>
+    <div class="field">
+      <label for="quick_tags">Tags to add to the search in a snap. Aliases are allowed. Leave empty to disable Velvet's icon.</label>
+      <textarea class="input input--wide" autocapitalize="none" id="user_quick_tags" placeholder="Quick tags to insert with the Velvet button"></textarea>
+    </div>
+    <h4>Aliases</h4>
+    <div class="field">
+      <label for="user_aliases">Aliases used to shorten commonly used requests by assigning an equivalent to multiple tags.</label>
+      <textarea class="input input--wide" autocapitalize="none" id="user_aliases" placeholder="alias=tags ; alias=tags ; ..."></textarea>
+    </div>
+    <h4>Sorting tags</h4>
+    <div class="field">
+      <p>The following tags are added by Velvet to ease searches. They are used as any other normal tag:</p>
+      <ul>
+        <li><strong>DESC</strong>: sort results descending (default). Has to be used in conjunction with a sorting type below.</li>
+        <li><strong>ASC</strong>: sort results ascending. Has to be used in conjunction with a sorting type below.</li>
+        <br />
+        <li><strong>DATE</strong>: sort results by creation date (default)</li>
+        <li><strong>SCORE</strong>: sort results by score</li>
+        <li><strong>RELEVANCE</strong>: sort results by relevance</li>
+        <li><strong>WIDTH</strong>: sort results by width</li>
+        <li><strong>HEIGHT</strong>: sort results by height</li>
+        <li><strong>COMMENTS</strong>: sort results by number of comments</li>
+        <li><strong>RANDOM</strong>: sort results randomly</li>
+      </ul>
+    </div>
+    <h4>Credits</h4>
+    <div class="field">
+      <p>Velvet&apos;s head: <a href="http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330">http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330</a></p>
+      <p>Velvet&apos;s cutie mark: <a href="http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132">http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132</a></p>
+    </div>
+  </div>
+`;
 
-    //Quick tags
-    var tempTag = document.createElement("h4");
-    tempTag.innerHTML = "Quick search";
-    content.appendChild(tempTag);
+// Inserting content so that it reacts the same as the other tabs
+tabSelect.insertAdjacentHTML('afterend', content);
 
-    var field = document.createElement("div");  //Fields are divs that are often reused to split sections into discernable zones
-    field.setAttribute("class", "field");
-
-        tempTag = document.createElement("label");
-        tempTag.setAttribute("for", "quick_tags");
-        tempTag.innerHTML = "Tags to add to the search in a snap. Aliases are allowed. Leave empty to disable Velvet's icon.";
-        field.appendChild(tempTag);
-
-        var quickTags = document.createElement("textarea");
-        quickTags.setAttribute("class", "input input--wide");
-        quickTags.setAttribute("autocapitalize", "none");
-        quickTags.setAttribute("id", "user_quick_tags");
-        quickTags.setAttribute("placeholder", "Quick tags to insert with the Velvet button");
-        field.appendChild(quickTags);
-
-    content.appendChild(field);
-
-    //Aliases
-    tempTag = document.createElement("h4");
-    tempTag.innerHTML = "Aliases";
-    content.appendChild(tempTag);
-
-    field = document.createElement("div");
-    field.setAttribute("class", "field");
-
-        tempTag = document.createElement("label");
-        tempTag.setAttribute("for", "user_aliases");
-        tempTag.innerHTML = "Aliases used to shorten commonly used requests by assigning an equivalent to multiple tags.";
-        field.appendChild(tempTag);
-
-        var aliases = document.createElement("textarea");
-        aliases.setAttribute("class", "input input--wide");
-        aliases.setAttribute("autocapitalize", "none");
-        aliases.setAttribute("id", "user_aliases");
-        aliases.setAttribute("placeholder", "alias=tags ; alias=tags ; ...");
-        field.appendChild(aliases);
-
-    content.appendChild(field);
-
-    //Additional tags
-    tempTag = document.createElement("h4");
-    tempTag.innerHTML = "Sorting tags";
-    content.appendChild(tempTag);
-
-    field = document.createElement("div");
-    field.setAttribute("class", "field");
-
-        tempTag = document.createElement("p");
-        tempTag.innerHTML = "The following tags are added by Velvet to ease searches. They are used as any other normal tag :";
-        field.appendChild(tempTag);
-
-        var list = document.createElement("ul");
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>DESC</strong> : sort results descending (default). Has to be used in conjunction with a sorting type below.";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>ASC</strong> : sort results ascending. Has to be used in conjunction with a sorting type below.";
-            list.appendChild(tempTag);
-
-            list.appendChild(document.createElement("br"));
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>DATE</strong> : sort results by creation date (default)";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>SCORE</strong> : sort results by score";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>RELEVANCE</strong> : sort results by relevance";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>WIDTH</strong> : sort results by width";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>HEIGHT</strong> : sort results by height";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>COMMENTS</strong> : sort results by number of comments";
-            list.appendChild(tempTag);
-
-            tempTag = document.createElement("li");
-            tempTag.innerHTML = "<strong>RANDOM</strong> : sort results randomly";
-            list.appendChild(tempTag);
-
-        field.appendChild(list);
-
-    content.appendChild(field);
-
-    //Credits
-    tempTag = document.createElement("h4");
-    tempTag.innerHTML = "Credits";
-    content.appendChild(tempTag);
-
-    field = document.createElement("div");
-    field.setAttribute("class", "field");
-
-        tempTag = document.createElement("p");
-        tempTag.innerHTML = "Velvet's head : <a href='http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330'>http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330</a>";
-        field.appendChild(tempTag);
-
-        tempTag = document.createElement("p");
-        tempTag.innerHTML = "Velvet's cutie mark : <a href='http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132'>http://greywander87.deviantart.com/art/Cutie-Mark-Twilight-Velvet-357204132</a>";
-        field.appendChild(tempTag);
-
-    content.appendChild(field);
-
-settingsTable.insertBefore(content, settingsTable.firstChild.nextSibling);    //Inserting content so that it reacts the same as the other tabs
+const form = document.querySelector('form.edit_user');
+const aliases = document.getElementById('user_aliases');
+const quickTags = document.getElementById('user_quick_tags');
 
 // ---------- Saving the user's preferences on form submission ----------
 
-document.querySelector("form.edit_user").addEventListener("submit", function(){
-    chrome.storage.sync.set({
-        quickTags: document.getElementById("user_quick_tags").value,
-        aliases: document.getElementById("user_aliases").value
-    }, function(){});
+form.addEventListener("submit", () => {
+  chrome.storage.sync.set({
+    quickTags: quickTags.value,
+    aliases: aliases.value
+  });
 });
 
 // ---------- Retrieving the user's preferences ----------
 
 chrome.storage.sync.get({
-    //Default values
-    quickTags: DEFAULT_QUICK_TAGS,
-    aliases: DEFAULT_ALIASES
-}, function(data){
-    document.getElementById("user_quick_tags").value = data.quickTags;
-    document.getElementById("user_aliases").value = data.aliases;
+  // Default values
+  quickTags: DEFAULT_QUICK_TAGS,
+  aliases: DEFAULT_ALIASES
+}, data => {
+  quickTags.value = data.quickTags,
+  aliases.value = data.aliases
 });

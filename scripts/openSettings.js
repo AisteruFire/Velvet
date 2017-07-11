@@ -5,12 +5,10 @@
 */
 
 //After installation...
-chrome.runtime.onInstalled.addListener(function(details){
+chrome.runtime.onInstalled.addListener(details => {
     if (details.reason == "install")
         openSettings(WELCOME_MESSAGE);
 });
 
 //When the extension's icon is clicked...
-chrome.browserAction.onClicked.addListener(function (tab){
-    openSettings();
-});
+chrome.browserAction.onClicked.addListener(tab => { openSettings(); });
