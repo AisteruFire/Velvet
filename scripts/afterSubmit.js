@@ -13,6 +13,7 @@ var oldLink = window.location.search, newLink = oldLink;
 var sortingTypeFound = false;
 
 // ---------- Sorting ----------
+
 for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
 {
     if(~newLink.indexOf(Object.keys(SORT_TAGS)[i]))
@@ -32,6 +33,7 @@ for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
 }
 
 // ---------- ASC/DESC ----------
+
 //newSort will contain the string corresponding to the method of sorting asked by the user, oldSort will contain the other one in order to remove it from the URL
 var newSort = null, oldSort = null;
 

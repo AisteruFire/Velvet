@@ -10,6 +10,7 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "no-extra-parens": ["warn", "all"],
+	"no-useless-escape": "warn",
     "no-unused-vars": ["warn", { "vars": "local" }],
     "no-unused-expressions": [
       "warn",
