@@ -6,9 +6,10 @@
 
 //After installation...
 chrome.runtime.onInstalled.addListener(details => {
-    if (details.reason == "install")
-        openSettings(WELCOME_MESSAGE);
+	if (details.reason == "install") openSettings(WELCOME_MESSAGE);
 });
 
 //When the extension's icon is clicked...
-chrome.browserAction.onClicked.addListener(() => { openSettings(); });
+chrome.browserAction.onClicked.addListener(() => {
+	openSettings();
+});
