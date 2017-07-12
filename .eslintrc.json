@@ -1,0 +1,30 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": { "ecmaVersion": 6 },
+  "rules": {
+    "indent": ["warn", "tab"],
+    "linebreak-style": ["warn", "windows"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "no-extra-parens": ["warn", "all"],
+    "no-unused-vars": ["warn", { "vars": "local" }],
+    "no-unused-expressions": [
+      "warn",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ]
+  },
+  "globals": {
+    "DEFAULT_QUICK_TAGS": false,
+    "DEFAULT_ALIASES": false,
+    "WELCOME_MESSAGE": false,
+    "QUICK_TAGS_BUTTON_TITLE": false,
+    "openSettings": false,
+    "chrome": false
+  }
+}

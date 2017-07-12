@@ -11,4 +11,4 @@ chrome.runtime.onInstalled.addListener(details => {
 });
 
 //When the extension's icon is clicked...
-chrome.browserAction.onClicked.addListener(tab => { openSettings(); });
+chrome.browserAction.onClicked.addListener(() => { openSettings(); });

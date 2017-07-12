@@ -22,42 +22,48 @@ for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
             sortingTypeFound = true;
 
             if (~newLink.indexOf("&sf="))
-                newLink = newLink.replace(/sf=.*\&?/, "sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
+                newLink = newLink.replace(/sf=.*&?/, "sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
             else
                 newLink += "&sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]];
         }
 
-        newLink = newLink.replace(new RegExp("\(AND|OR|\\,|\\&\\&|\\|\\|\)?\(\\+\)?" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
+        newLink = newLink.replace(new RegExp("(\\+)*(AND|OR|\\,|\\&\\&|\\|\\|)?(\\+)*" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
     }
 }
 
 // ---------- ASC/DESC ----------
+//newSort will contain the string corresponding to the method of sorting asked by the user, oldSort will contain the other one in order to remove it from the URL
+var newSort = null, oldSort = null;
+
 if (~newLink.indexOf("ASC"))
 {
-    newLink = newLink.replace(/(AND|OR|\,|\&\&|\|\|)?(\+)?ASC/g, "");    //Removing from the query
-
-    if (~newLink.indexOf("&sd="))
-        newLink = newLink.replace(/sd=desc/, "sd=asc"); //If the sorting is desc, changing it to asc
-    else
-        newLink += "&sd=asc";
+    newSort = "asc";
+    oldSort = "desc";
 }
 else if (~newLink.indexOf("DESC"))
 {
-    newLink = newLink.replace(/(AND|OR|\,|\&\&|\|\|)?(\+)?DESC/g, "");   //Removing from the query
-
-    if (~newLink.indexOf("&sd="))
-        newLink = newLink.replace(/sd=asc/, "sd=desc"); //If the sorting is asc, changing it to desc
-    else
-        newLink += "&sd=desc";
+    newSort = "desc";
+    oldSort = "asc";
 }
 
+if (newSort)
+{
+    if (~newLink.indexOf("&sd="))   //If there is already an instruction for sorting in the URL...
+        newLink = newLink.replace(new RegExp("sd=" + oldSort, "i"), "sd=" + newSort);
+    else
+        newLink += "&sd=" + newSort;
+}
+
+newLink = newLink.replace(/(\+)*(AND|OR|,|&&|\|\|)?(\+)*(ASC|DESC)/g, "");  //Removing ASC or DESC from the query
+
 //Cleaning the query from unnecessary characters
-newLink = newLink.replace(/\+{2,}/g, "+"); //Unnecessary plusses
-newlink = newLink.replace(/\=\+/g, "").replace(/\+\&/g, ""); //Plusses remaining after removing the sorting tags
+newLink = newLink.replace(/\+{2,}/g, "+");  //Unnecessary plusses
+newLink = newLink.replace(/=\+*/, "=").replace(/\+*&/g, "&");   //Plusses remaining at the beginning or the end of the query
 
 //If the query is empty, we put the * wildcard
-if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*\&/))
+if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*&/))
     newLink = newLink.replace(/\?q=\+*/, "?q=*");
 
 if (newLink !== oldLink)
     window.location.replace(newLink);
+

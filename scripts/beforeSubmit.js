@@ -15,9 +15,9 @@ chrome.storage.sync.get({
     if (data.quickTags)
     {
         var searchBar = document.querySelector("form.header__search");
-        searchBar.insertAdjacentHTML("beforeend", '<button title="' + QUICK_TAGS_BUTTON_TITLE + '" class="header__search__button" type="submit" style="line-height: 0">');
+        searchBar.insertAdjacentHTML("beforeend", "<button title=\"" + QUICK_TAGS_BUTTON_TITLE + "\" class=\"header__search__button\" type=\"submit\" style=\"line-height: 0\">");
 
-        var quickButton = document.querySelector('button[title="' + QUICK_TAGS_BUTTON_TITLE + '"]');
+        var quickButton = document.querySelector("button[title=\"" + QUICK_TAGS_BUTTON_TITLE + "\"]");
         var searchField = document.getElementById("q");
 
         quickButton.addEventListener("click", function(){
@@ -28,7 +28,7 @@ chrome.storage.sync.get({
         });
 
         //Adding the button's image
-        quickButton.insertAdjacentHTML("beforeend", '<img style="height: 21px;" src="' + chrome.runtime.getURL("../icons/velvetIcon.png") +'" />');
+        quickButton.insertAdjacentHTML("beforeend", "<img style=\"height: 21px;\" src=\"" + chrome.runtime.getURL("../icons/velvetIcon.png") +"\" />");
     }
 
     // ---------- Parsing the aliases ----------

@@ -6,7 +6,7 @@
 
 function openSettings(alert)
 {
-    chrome.tabs.create({url: "https://derpibooru.org/settings"}, function(tab){
+    chrome.tabs.create({url: "https://derpibooru.org/settings"}, tab => {
         var js = "while (!document.getElementById('velvet')); document.getElementById('velvet').click();";  //Waiting for the Velvet tab to be created
 
         if (alert)  //If there is some text to show to the user...
