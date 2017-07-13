@@ -16,20 +16,20 @@ var sortingTypeFound = false;
 
 for (var i = 0; i < Object.keys(SORT_TAGS).length; i++)
 {
-    if(~newLink.indexOf(Object.keys(SORT_TAGS)[i]))
-    {
-        if (!sortingTypeFound)
-        {
-            sortingTypeFound = true;
+	if(~newLink.indexOf(Object.keys(SORT_TAGS)[i]))
+	{
+		if (!sortingTypeFound)
+		{
+			sortingTypeFound = true;
 
-            if (~newLink.indexOf("&sf="))
-                newLink = newLink.replace(/sf=.*&?/, "sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
-            else
-                newLink += "&sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]];
-        }
+			if (~newLink.indexOf("&sf="))
+				newLink = newLink.replace(/sf=.*&?/, "sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]]);
+			else
+				newLink += "&sf=" + SORT_TAGS[Object.keys(SORT_TAGS)[i]];
+		}
 
-        newLink = newLink.replace(new RegExp("(\\+)*(AND|OR|\\,|\\&\\&|\\|\\|)?(\\+)*" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
-    }
+		newLink = newLink.replace(new RegExp("(\\+)*(AND|OR|\\,|\\&\\&|\\|\\|)?(\\+)*" + Object.keys(SORT_TAGS)[i], "g"), ""); //Removing from the query
+	}
 }
 
 // ---------- ASC/DESC ----------
@@ -39,21 +39,21 @@ var newSort = null, oldSort = null;
 
 if (~newLink.indexOf("ASC"))
 {
-    newSort = "asc";
-    oldSort = "desc";
+	newSort = "asc";
+	oldSort = "desc";
 }
 else if (~newLink.indexOf("DESC"))
 {
-    newSort = "desc";
-    oldSort = "asc";
+	newSort = "desc";
+	oldSort = "asc";
 }
 
 if (newSort)
 {
-    if (~newLink.indexOf("&sd="))   //If there is already an instruction for sorting in the URL...
-        newLink = newLink.replace(new RegExp("sd=" + oldSort, "i"), "sd=" + newSort);
-    else
-        newLink += "&sd=" + newSort;
+	if (~newLink.indexOf("&sd="))   //If there is already an instruction for sorting in the URL...
+		newLink = newLink.replace(new RegExp("sd=" + oldSort, "i"), "sd=" + newSort);
+	else
+		newLink += "&sd=" + newSort;
 }
 
 newLink = newLink.replace(/(\+)*(AND|OR|,|&&|\|\|)?(\+)*(ASC|DESC)/g, "");  //Removing ASC or DESC from the query
@@ -64,8 +64,8 @@ newLink = newLink.replace(/=\+*/, "=").replace(/\+*&/g, "&");   //Plusses remain
 
 //If the query is empty, we put the * wildcard
 if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*&/))
-    newLink = newLink.replace(/\?q=\+*/, "?q=*");
+	newLink = newLink.replace(/\?q=\+*/, "?q=*");
 
 if (newLink !== oldLink)
-    window.location.replace(newLink);
+	window.location.replace(newLink);
 
