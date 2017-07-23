@@ -4,7 +4,7 @@
     This file contains everything that is executed before the form is sent to the server, such as aliases replacements and Velvet quick tags
 */
 
-//Since sync.get is asynchronous, everything is done after retrieving the user's preferences
+// Since sync.get is asynchronous, everything is done after retrieving the user's preferences
 chrome.storage.sync.get({
 	quickTags: DEFAULT_QUICK_TAGS,
 	aliases: DEFAULT_ALIASES
@@ -21,13 +21,13 @@ chrome.storage.sync.get({
 		var searchField = document.getElementById("q");
 
 		quickButton.addEventListener("click", function(){
-			if (!searchField.value)   //If the search field is empty, we just add the quick tags
+			if (!searchField.value)   // If the search field is empty, we just add the quick tags
 				searchField.value = data.quickTags;
-			else if (!~searchField.value.indexOf(data.quickTags)) //Adding the quick tags only if they're not already there
+			else if (!~searchField.value.indexOf(data.quickTags)) // Adding the quick tags only if they're not already there
 				searchField.value += " AND (" + data.quickTags + ")";
 		});
 
-		//Adding the button's image
+		// Adding the button's image
 		quickButton.insertAdjacentHTML("beforeend", "<img style=\"height: 21px;\" src=\"" + chrome.runtime.getURL("../icons/velvetIcon.png") +"\" />");
 	}
 
