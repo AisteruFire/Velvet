@@ -23,8 +23,8 @@ chrome.storage.sync.get({
 		quickButton.addEventListener("click", function(){
 			if (!searchField.value)   // If the search field is empty, we just add the quick tags
 				searchField.value = data.quickTags;
-			else if (!~searchField.value.indexOf(data.quickTags)) // Adding the quick tags only if they're not already there
-				searchField.value += " AND (" + data.quickTags + ")";
+			else if (!~searchField.value.indexOf(data.quickTags)) // Adding the quick tags only if they're not already there. Surrounding it with brackets to respect operator priority
+				searchField.value = "(" + searchField.value + ") AND (" + data.quickTags + ")";
 		});
 
 		// Adding the button's image
