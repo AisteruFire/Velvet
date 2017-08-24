@@ -16,6 +16,9 @@ var DEFAULT_PREFERED_AND = "AND", DEFAULT_PREFERED_OR = "OR";
 // Wether the aliases should be wrapped with parenthesis or not
 var DEFAULT_WRAP_ALIASES = true;
 
+// Indicates which operator should be used for the ditto operator in case the user doesn't give a flag
+var DEFAULT_OPERATION = "AND";
+
 // Message to display upon Velvet's installation. Backslashes are doubled, because it is processed a second time so it must be escaped twice.
 var WELCOME_MESSAGE = "Thank you for installing Velvet ! <3 Here are some explanations :\\n\\n-> Quick tags are tags you often use and would like to insert in your requests more easily. In order to do that, type your favorite tags as if you were searching them. To insert them, you'll only have to press the Velvet icon near the search bar, and they'll magically appear.\\n\\n-> Aliases are useful if you want to reduce long requests to a single expression, like turning 'pegasus AND cute AND chest fluff AND safe' to just 'pegacute'. Be careful, for if you choose an alias that is already an existing tag, you won't be able to search it properly.\\n\\nFinally, if you need to access to those settings, you can either go to derpibooru's settings or click on Velvet's icon.\\n\\nIf you want to contact me, feel free to send a private message to fandechimie on derpibooru. See ya !";
 
@@ -30,11 +33,51 @@ var VELVET_TAB_CONTENT = `
 		<label for="quick_tags">Tags to add to the search in a snap. Aliases are allowed. Leave empty to disable Velvet's icon.</label>
 		<textarea class="input input--wide" autocapitalize="none" id="user_quick_tags" placeholder="Quick tags to insert with the Velvet button"></textarea>
 	</div>
+
 	<h4>Aliases</h4>
 	<div class="field">
 		<label for="user_aliases">Aliases used to shorten commonly used requests by assigning an equivalent to multiple tags.</label>
 		<textarea class="input input--wide" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
+		<p for="wrapAliases">Wrap aliases with parenthesis. This helps avoiding operator priority-based issues.<input type="checkbox" id="wrapAliases" class="checkbox" /></p>
 	</div>
+
+	<h4>Ditto operator</h4>
+	<div class="field">
+		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
+		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
+		<p>Allowed flags : .-;:_{}[]\`'?+@#%&/|=</p>
+
+		<table style="border-spacing: 5px; width: 100%; text-align: center; margin-top: 13px; margin-bottom: 10px;">
+			<tr>
+				<td><label for="andFlag">AND flag</label><input type="text" maxlength="1" id="andFlag" class="input" style="width: 16px; margin: 0 8px; box-sizing: initial; text-align: center;" /></td>
+
+				<td><label for="orFlag">OR flag</label><input type="text" maxlength="1" id="orFlag" class="input" style="width: 16px; margin: 0 8px; box-sizing: initial; text-align: center;" /></td>
+
+				<td>
+					<label for="preferedAnd">Prefered AND form</label>
+					<select id="preferedAnd" class="input" style="margin: 0 3px;">
+						<option value="AND">AND</option>
+						<option value="&&">&&</option>
+						<option value=",">,</option>
+					</select>
+				</td>
+
+				<td>
+					<label for="preferedOr">Prefered OR form</label>
+					<select id="preferedOr" class="input" style="margin: 0 3px;">
+						<option value="OR">OR</option>
+						<option value="||">||</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<label for="defaultOperation">In the case where no flag is given with a ditto alias, which operator should be used by default ?</label>
+		<select id="defaultOperation" class="input" style="margin: 0 3px;">
+			<option value="AND">AND</option>
+			<option value="OR">OR</option>
+		</select>
+	</div>
+
 	<h4>Sorting tags</h4>
 	<div class="field">
 		<p>The following tags are added by Velvet to ease searches. They are used as any other normal tag:</p>
@@ -51,6 +94,7 @@ var VELVET_TAB_CONTENT = `
 			<li><strong>RANDOM</strong>: sort results randomly</li>
 		</ul>
 	</div>
+
 	<h4>Credits</h4>
 	<div class="field">
 		<p>Velvet&apos;s head: <a href="http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330">http://jeatz-axl.deviantart.com/art/Twilight-Velvet-442111330</a></p>

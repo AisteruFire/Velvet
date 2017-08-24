@@ -17,16 +17,18 @@ const content = VELVET_TAB_CONTENT;
 // Inserting content so that it reacts the same as the other tabs
 tabSelect.insertAdjacentHTML("afterend", content);
 
-const form = document.querySelector("form.edit_user");
-const aliases = document.getElementById("user_aliases");
-const quickTags = document.getElementById("user_quick_tags");
-
 // ---------- Saving the user's preferences on form submission ----------
 
-form.addEventListener("submit", () => {
+document.querySelector("form.edit_user").addEventListener("submit", () => {
 	chrome.storage.sync.set({
-		quickTags: quickTags.value,
-		aliases: aliases.value
+		quickTags: document.getElementById("user_quick_tags").value,
+		aliases: document.getElementById("user_aliases").value,
+		andFlag: document.getElementById("andFlag").value,
+		orFlag: document.getElementById("orFlag").value,
+		preferedAnd: document.getElementById("preferedAnd").value,
+		preferedOr: document.getElementById("preferedOr").value,
+		wrapAliases: document.getElementById("wrapAliases").checked,
+		defaultOperation: document.getElementById("defaultOperation").value
 	});
 });
 
@@ -35,8 +37,31 @@ form.addEventListener("submit", () => {
 chrome.storage.sync.get({
 	// Default values
 	quickTags: DEFAULT_QUICK_TAGS,
-	aliases: DEFAULT_ALIASES
+	aliases: DEFAULT_ALIASES,
+	andFlag: DEFAULT_AND_FLAG,
+	orFlag: DEFAULT_OR_FLAG,
+	preferedAnd: DEFAULT_PREFERED_AND,
+	preferedOr: DEFAULT_PREFERED_OR,
+	wrapAliases: DEFAULT_WRAP_ALIASES,
+	defaultOperation: DEFAULT_OPERATION
 }, data => {
-	quickTags.value = data.quickTags;
-	aliases.value = data.aliases;
+	document.getElementById("user_quick_tags").value = data.quickTags;
+	document.getElementById("user_aliases").value = data.aliases;
+	document.getElementById("andFlag").value = data.andFlag;
+	document.getElementById("orFlag").value = data.orFlag;
+	document.getElementById("preferedAnd").value = data.preferedAnd;
+	document.getElementById("preferedOr").value = data.preferedOr;
+	document.getElementById("wrapAliases").checked = data.wrapAliases;
+	document.getElementById("defaultOperation").value = data.defaultOperation;
 });
+
+// ---------- Checking for illegal characters for flag ----------
+function checkForbiddenFlags(e)
+{
+	var forbiddenCharacters = /[a-zA-Z0-9\x80-\xFF()*,"\\~^ ]/;
+	if (forbiddenCharacters.test(String.fromCharCode(e.keyCode)))
+		e.preventDefault();
+}
+
+document.getElementById("andFlag").addEventListener("keypress", e => checkForbiddenFlags(e));
+document.getElementById("orFlag").addEventListener("keypress", e => checkForbiddenFlags(e));

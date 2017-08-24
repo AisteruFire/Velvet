@@ -12,7 +12,8 @@ chrome.storage.sync.get({
 	orFlag: DEFAULT_OR_FLAG,
 	preferedAnd: DEFAULT_PREFERED_AND,
 	preferedOr: DEFAULT_PREFERED_OR,
-	wrapAliases: DEFAULT_WRAP_ALIASES
+	wrapAliases: DEFAULT_WRAP_ALIASES,
+	defaultOperation: DEFAULT_OPERATION
 }, function(data){
 	// ---------- Quick tags button ----------
 	data.quickTags = data.quickTags.trim();
@@ -62,9 +63,13 @@ chrome.storage.sync.get({
 				// If the alias contains a ditto operator
 				if (~replacement.indexOf("::"))
 				{
-					// Replacing with correct operator according to the flag following the alias. The double backslash is in case the flag is a special character in Regexp such as ?
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.andFlag, "ig"), replacement).replace("::", data.preferedAnd);
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.orFlag, "ig"), replacement).replace("::", data.preferedOr);
+					/*
+						Replacing with correct operator according to the flag following the alias.
+						The double backslash is in case the flag is a special character in Regexp such as ?.
+						The ternary operation is here to make the flag optional in the case it is the operation to perform in the case there is no flag.
+					*/
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.andFlag + (data.defaultOperation == "AND" ? "?" : ""), "ig"), replacement).replace("::", data.preferedAnd);
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.orFlag + (data.defaultOperation == "OR" ? "?" : ""), "ig"), replacement).replace("::", data.preferedOr);
 				}
 				else
 				{

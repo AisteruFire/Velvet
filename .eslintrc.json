@@ -33,6 +33,7 @@
 	"DEFAULT_PREFERED_AND": false,
 	"DEFAULT_PREFERED_OR": false,
 	"DEFAULT_WRAP_ALIASES": false,
+	"DEFAULT_OPERATION": false,
     "openSettings": false,
     "chrome": false
   }
