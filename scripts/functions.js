@@ -6,12 +6,12 @@
 
 function openSettings(alert)
 {
-    chrome.tabs.create({url: "https://derpibooru.org/settings"}, tab => {
-        var js = "while (!document.getElementById('velvet')); document.getElementById('velvet').click();";  //Waiting for the Velvet tab to be created
+	chrome.tabs.create({url: "https://derpibooru.org/settings"}, tab => {
+		var js = "while (!document.getElementById('velvet')); document.getElementById('velvet').click();";  // Waiting for the Velvet tab to be created
 
-        if (alert)  //If there is some text to show to the user...
-            js += "alert(\"" + alert + "\");";
+		if (alert)  // If there is some text to show to the user...
+			js += "alert(\"" + alert + "\");";
 
-        chrome.tabs.executeScript(tab.id, {code: js});
-    });
+		chrome.tabs.executeScript(tab.id, {code: js});
+	});
 }

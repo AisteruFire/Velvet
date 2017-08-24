@@ -5,13 +5,15 @@
   "extends": "eslint:recommended",
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
-    "indent": ["warn", "tab"],
+	"indent": ["warn", "tab"],
     "linebreak-style": ["warn", "windows"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
+  	"spaced-comment": ["warn", "always", { "block": { "balanced": true } }],
     "no-extra-parens": ["warn", "all"],
-	"no-useless-escape": "warn",
+  	"no-useless-escape": "warn",
     "no-unused-vars": ["warn", { "vars": "local" }],
+  	"no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 1, "maxBOF": 0}],
     "no-unused-expressions": [
       "warn",
       {

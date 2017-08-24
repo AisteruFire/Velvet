@@ -58,19 +58,19 @@ const quickTags = document.getElementById("user_quick_tags");
 // ---------- Saving the user's preferences on form submission ----------
 
 form.addEventListener("submit", () => {
-    chrome.storage.sync.set({
-        quickTags: quickTags.value,
-        aliases: aliases.value
-    });
+	chrome.storage.sync.set({
+		quickTags: quickTags.value,
+		aliases: aliases.value
+	});
 });
 
 // ---------- Retrieving the user's preferences ----------
 
 chrome.storage.sync.get({
-    // Default values
-    quickTags: DEFAULT_QUICK_TAGS,
-    aliases: DEFAULT_ALIASES
+	// Default values
+	quickTags: DEFAULT_QUICK_TAGS,
+	aliases: DEFAULT_ALIASES
 }, data => {
-    quickTags.value = data.quickTags;
-    aliases.value = data.aliases;
+	quickTags.value = data.quickTags;
+	aliases.value = data.aliases;
 });
