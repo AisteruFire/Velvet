@@ -27,6 +27,7 @@
     "DEFAULT_ALIASES": false,
     "WELCOME_MESSAGE": false,
     "QUICK_TAGS_BUTTON_TITLE": false,
+	"VELVET_TAB_CONTENT": false,
     "openSettings": false,
     "chrome": false
   }

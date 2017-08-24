@@ -35,7 +35,7 @@ chrome.storage.sync.get({
 	if (data.aliases)
 	{
 		var aliases = [];
-		var split = data.aliases.split(";");
+		var split = data.aliases.split("\n");
 
 		for (var alias of split)
 		{
@@ -49,7 +49,8 @@ chrome.storage.sync.get({
 		searchBar.addEventListener("submit", () => {
 			for (var alias of aliases)
 			{
-				searchField.value = searchField.value.replace(new RegExp("\\(?" + alias.split("=")[0].trim() + "\\)?", "ig"), "(" + alias.split("=")[1].trim() + ")");
+				var toBeReplaced = alias.split("=")[0].trim(), replacement = alias.split("=")[1].trim();
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), "(" + replacement + ")");
 			}
 		});
 	}
