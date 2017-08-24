@@ -28,6 +28,11 @@
     "WELCOME_MESSAGE": false,
     "QUICK_TAGS_BUTTON_TITLE": false,
 	"VELVET_TAB_CONTENT": false,
+	"DEFAULT_AND_FLAG": false,
+	"DEFAULT_OR_FLAG": false,
+	"DEFAULT_PREFERED_AND": false,
+	"DEFAULT_PREFERED_OR": false,
+	"DEFAULT_WRAP_ALIASES": false,
     "openSettings": false,
     "chrome": false
   }

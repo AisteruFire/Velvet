@@ -7,7 +7,12 @@
 // Since sync.get is asynchronous, everything is done after retrieving the user's preferences
 chrome.storage.sync.get({
 	quickTags: DEFAULT_QUICK_TAGS,
-	aliases: DEFAULT_ALIASES
+	aliases: DEFAULT_ALIASES,
+	andFlag: DEFAULT_AND_FLAG,
+	orFlag: DEFAULT_OR_FLAG,
+	preferedAnd: DEFAULT_PREFERED_AND,
+	preferedOr: DEFAULT_PREFERED_OR,
+	wrapAliases: DEFAULT_WRAP_ALIASES
 }, function(data){
 	// ---------- Quick tags button ----------
 	data.quickTags = data.quickTags.trim();
@@ -50,7 +55,21 @@ chrome.storage.sync.get({
 			for (var alias of aliases)
 			{
 				var toBeReplaced = alias.split("=")[0].trim(), replacement = alias.split("=")[1].trim();
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), "(" + replacement + ")");
+
+				if (data.wrapAliases)
+					replacement = "(" + replacement + ")";
+
+				// If the alias contains a ditto operator
+				if (~replacement.indexOf("::"))
+				{
+					// Replacing with correct operator according to the flag following the alias. The double backslash is in case the flag is a special character in Regexp such as ?
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.andFlag, "ig"), replacement).replace("::", data.preferedAnd);
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.orFlag, "ig"), replacement).replace("::", data.preferedOr);
+				}
+				else
+				{
+					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), replacement);
+				}
 			}
 		});
 	}
