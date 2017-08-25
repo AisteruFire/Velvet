@@ -14,7 +14,7 @@ var DEFAULT_AND_FLAG = "!", DEFAULT_OR_FLAG = "?";
 var DEFAULT_PREFERED_AND = "AND", DEFAULT_PREFERED_OR = "OR";
 
 // Wether the aliases should be wrapped with parenthesis or not
-var DEFAULT_WRAP_ALIASES = true;
+var DEFAULT_WRAP_ALIASES = false;
 
 // Indicates which operator should be used for the ditto operator in case the user doesn't give a flag
 var DEFAULT_OPERATION = "AND";
@@ -36,14 +36,14 @@ var VELVET_TAB_CONTENT = `
 
 	<h4>Aliases</h4>
 	<div class="field">
-		<label for="user_aliases">Aliases used to shorten commonly used requests by assigning an equivalent to multiple tags.</label>
-		<textarea class="input input--wide" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
-		<p for="wrapAliases">Wrap aliases with parenthesis. This helps avoiding operator priority-based issues.<input type="checkbox" id="wrapAliases" class="checkbox" /></p>
+		<label for="user_aliases">Aliases used to shorten commonly used requests by assigning a short name to multiple tags. Place one alias per line. Aliases containing themselves will be ignored.</label>
+		<textarea class="input input--wide" style="height: 75px; line-height: 140%;" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
+		<label for="wrapAliases">Wrap aliases with parenthesis. This can help avoiding operator priority-based issues</label><input type="checkbox" id="wrapAliases" class="checkbox" />
 	</div>
 
 	<h4>Ditto operator</h4>
 	<div class="field">
-		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
+		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
 		<p>Allowed flags : .-;:_{}[]\`'?+@#%&/|=</p>
 
@@ -71,7 +71,7 @@ var VELVET_TAB_CONTENT = `
 				</td>
 			</tr>
 		</table>
-		<label for="defaultOperation">In the case where no flag is given with a ditto alias, which operator should be used by default ?</label>
+		<label for="defaultOperation">In the case where no flag is given with a ditto alias, use the following operator by default : </label>
 		<select id="defaultOperation" class="input" style="margin: 0 3px;">
 			<option value="AND">AND</option>
 			<option value="OR">OR</option>
@@ -82,8 +82,8 @@ var VELVET_TAB_CONTENT = `
 	<div class="field">
 		<p>The following tags are added by Velvet to ease searches. They are used as any other normal tag:</p>
 		<ul>
-			<li><strong>DESC</strong>: sort results descending (default). Has to be used in conjunction with a sorting type below.</li>
-			<li><strong>ASC</strong>: sort results ascending. Has to be used in conjunction with a sorting type below.</li>
+			<li><strong>DESC</strong>: sort results descending (default).</li>
+			<li><strong>ASC</strong>: sort results ascending.</li>
 			<br />
 			<li><strong>DATE</strong>: sort results by creation date (default)</li>
 			<li><strong>SCORE</strong>: sort results by score</li>

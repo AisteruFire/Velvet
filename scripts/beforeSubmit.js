@@ -53,29 +53,43 @@ chrome.storage.sync.get({
 
 		// ---------- Replacing the aliases ----------
 		searchBar.addEventListener("submit", () => {
-			for (var alias of aliases)
+			// The aliases are searched for until there are none left
+			do
 			{
-				var toBeReplaced = alias.split("=")[0].trim(), replacement = alias.split("=")[1].trim();
+				var query = searchField.value;
 
-				if (data.wrapAliases)
-					replacement = "(" + replacement + ")";
+				for (var alias of aliases)
+				{
+					var toBeReplaced = alias.split("=")[0].trim(), replacement = alias.split("=")[1].trim();
 
-				// If the alias contains a ditto operator
-				if (~replacement.indexOf("::"))
-				{
-					/*
-						Replacing with correct operator according to the flag following the alias.
-						The double backslash is in case the flag is a special character in Regexp such as ?.
-						The ternary operation is here to make the flag optional in the case it is the operation to perform in the case there is no flag.
-					*/
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.andFlag + (data.defaultOperation == "AND" ? "?" : ""), "ig"), replacement).replace("::", data.preferedAnd);
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.orFlag + (data.defaultOperation == "OR" ? "?" : ""), "ig"), replacement).replace("::", data.preferedOr);
+					// Ignoring aliases containing themselves
+					if (~replacement.indexOf(toBeReplaced))
+						continue;
+
+					if (data.wrapAliases)
+						replacement = "(" + replacement + ")";
+
+					// If the alias contains a ditto operator
+					if (~replacement.indexOf("::"))
+					{
+						/*
+							Replacing with correct operator according to the flag following the alias.
+							The double backslash is in case the flag is a special character in Regexp such as ?.
+						*/
+
+						searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.andFlag, "ig"), replacement.replace(/ ?:: ?/g, " " + data.preferedAnd + " "));
+						searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\" + data.orFlag, "ig"), replacement.replace(/ ?:: ?/g, " " + data.preferedOr + " "));
+
+						// If no flag has been given, we use the default behavior for the ditto
+						searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), replacement.replace(/ ?:: ?/g, " " + (data.defaultOperation == "AND" ? data.preferedAnd : data.preferedOr) + " "));
+
+					}
+					else
+					{
+						searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), replacement);
+					}
 				}
-				else
-				{
-					searchField.value = searchField.value.replace(new RegExp("\\b" + toBeReplaced + "\\b", "ig"), replacement);
-				}
-			}
+			} while (query != searchField.value);
 		});
 	}
 });

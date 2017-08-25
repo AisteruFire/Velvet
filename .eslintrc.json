@@ -1,40 +1,49 @@
 {
-  "env": {
-    "browser": true
-  },
-  "extends": "eslint:recommended",
-  "parserOptions": { "ecmaVersion": 6 },
-  "rules": {
+	"env": {
+		"browser": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": { "ecmaVersion": 6 },
+	"rules": {
 	"indent": ["warn", "tab"],
-    "linebreak-style": ["warn", "windows"],
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"],
-  	"spaced-comment": ["warn", "always", { "block": { "balanced": true } }],
-    "no-extra-parens": ["warn", "all"],
-  	"no-useless-escape": "warn",
-    "no-unused-vars": ["warn", { "vars": "local" }],
-  	"no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 1, "maxBOF": 0}],
-    "no-unused-expressions": [
-      "warn",
-      {
-        "allowShortCircuit": true,
-        "allowTernary": true
-      }
-    ]
-  },
-  "globals": {
-    "DEFAULT_QUICK_TAGS": false,
-    "DEFAULT_ALIASES": false,
-    "WELCOME_MESSAGE": false,
-    "QUICK_TAGS_BUTTON_TITLE": false,
-	"VELVET_TAB_CONTENT": false,
-	"DEFAULT_AND_FLAG": false,
-	"DEFAULT_OR_FLAG": false,
-	"DEFAULT_PREFERED_AND": false,
-	"DEFAULT_PREFERED_OR": false,
-	"DEFAULT_WRAP_ALIASES": false,
-	"DEFAULT_OPERATION": false,
-    "openSettings": false,
-    "chrome": false
-  }
+	"linebreak-style": ["warn", "windows"],
+	"quotes": ["error", "double"],
+	"semi": ["error", "always"],
+	"spaced-comment": ["warn", "always", { "block": { "balanced": true } }],
+	"no-extra-parens": [
+		"warn",
+		"all",
+		{
+			"conditionalAssign": false,
+			"returnAssign": false
+		}
+	],
+	"new-parens": "warn",
+	"space-in-parens": ["warn", "never"],
+	"no-useless-escape": "warn",
+	"no-unused-vars": ["warn", { "vars": "local" }],
+	"no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 1, "maxBOF": 0}],
+	"no-unused-expressions": [
+		"warn",
+		{
+			"allowShortCircuit": true,
+			"allowTernary": true
+		}
+	]
+	},
+	"globals": {
+		"DEFAULT_QUICK_TAGS": false,
+		"DEFAULT_ALIASES": false,
+		"WELCOME_MESSAGE": false,
+		"QUICK_TAGS_BUTTON_TITLE": false,
+		"VELVET_TAB_CONTENT": false,
+		"DEFAULT_AND_FLAG": false,
+		"DEFAULT_OR_FLAG": false,
+		"DEFAULT_PREFERED_AND": false,
+		"DEFAULT_PREFERED_OR": false,
+		"DEFAULT_WRAP_ALIASES": false,
+		"DEFAULT_OPERATION": false,
+		"openSettings": false,
+		"chrome": false
+	}
 }
