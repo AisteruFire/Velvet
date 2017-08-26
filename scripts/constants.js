@@ -4,29 +4,29 @@
     This file contains all constants the extension needs to work properly and consistently. They are not initialised as constants because they may be injected mor than once per page.
 */
 
-var DEFAULT_QUICK_TAGS = "cute",
+const DEFAULT_QUICK_TAGS = "cute",
 	DEFAULT_ALIASES = "";
 
 // Characters used for the ditto operator
-var DEFAULT_AND_FLAG = "!", DEFAULT_OR_FLAG = "?";
+const DEFAULT_AND_FLAG = "!", DEFAULT_OR_FLAG = "?";
 
 // Operators used by default when replacing ditto operator by AND or OR. Can be 'AND' or '&&' or ',' ; 'OR' or '||'
-var DEFAULT_PREFERED_AND = "AND", DEFAULT_PREFERED_OR = "OR";
+const DEFAULT_PREFERED_AND = "AND", DEFAULT_PREFERED_OR = "OR";
 
 // Wether the aliases should be wrapped with parenthesis or not
-var DEFAULT_WRAP_ALIASES = false;
+const DEFAULT_WRAP_ALIASES = false;
 
 // Indicates which operator should be used for the ditto operator in case the user doesn't give a flag
-var DEFAULT_OPERATION = "AND";
+const DEFAULT_OPERATION = "AND";
 
 // Message to display upon Velvet's installation. Backslashes are doubled, because it is processed a second time so it must be escaped twice.
-var WELCOME_MESSAGE = "Thank you for installing Velvet ! <3 Here are some explanations :\\n\\n-> Quick tags are tags you often use and would like to insert in your requests more easily. In order to do that, type your favorite tags as if you were searching them. To insert them, you'll only have to press the Velvet icon near the search bar, and they'll magically appear.\\n\\n-> Aliases are useful if you want to reduce long requests to a single expression, like turning 'pegasus AND cute AND chest fluff AND safe' to just 'pegacute'. Be careful, for if you choose an alias that is already an existing tag, you won't be able to search it properly.\\n\\nFinally, if you need to access to those settings, you can either go to derpibooru's settings or click on Velvet's icon.\\n\\nIf you want to contact me, feel free to send a private message to fandechimie on derpibooru. See ya !";
+const WELCOME_MESSAGE = "Thank you for installing Velvet ! <3 Here are some explanations :\\n\\n-> Quick tags are tags you often use and would like to insert in your requests more easily. In order to do that, type your favorite tags as if you were searching them. To insert them, you'll only have to press the Velvet icon near the search bar, and they'll magically appear.\\n\\n-> Aliases are useful if you want to reduce long requests to a single expression, like turning 'pegasus AND cute AND chest fluff AND safe' to just 'pegacute'. Be careful, for if you choose an alias that is already an existing tag, you won't be able to search it properly.\\n\\nFinally, if you need to access to those settings, you can either go to derpibooru's settings or click on Velvet's icon.\\n\\nIf you want to contact me, feel free to send a private message to fandechimie on derpibooru. See ya !";
 
 // Title of the quick tags button
-var QUICK_TAGS_BUTTON_TITLE = "Velvet quick search";
+const QUICK_TAGS_BUTTON_TITLE = "Velvet quick search";
 
 // Content of the Velvet tab
-var VELVET_TAB_CONTENT = `
+const VELVET_TAB_CONTENT = `
 <div class="block__tab hidden" data-tab="velvet">
 	<h4>Quick search</h4>
 	<div class="field">
