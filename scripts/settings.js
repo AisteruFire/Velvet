@@ -8,7 +8,7 @@ const settingsTable = document.getElementById("js-setting-table");
 const tabSelect = settingsTable.firstChild;
 
 // ---------- Creating the tab ----------
-const velvetTab = "<a id=\"velvet\" href=\"#\" data-click-tab=\"velvet\" style=\"color:darkorchid\">Velvet</a>";
+const velvetTab = `<a id="velvet" href="#" data-click-tab="velvet">Velvet</a>`;
 tabSelect.insertAdjacentHTML("beforeend", velvetTab);
 
 // ---------- Creating the content of the tab ----------

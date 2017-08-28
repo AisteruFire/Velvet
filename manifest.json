@@ -45,7 +45,8 @@
         },
         {
             "matches": ["*://*.derpibooru.org/settings", "*://*.trixiebooru.org/settings"],
-            "js": ["scripts/settings.js"],
+			"css": ["css/settings.css"],
+			"js": ["scripts/settings.js"],
             "run_at": "document_end"
         }
     ]

@@ -1,0 +1,32 @@
+#velvet
+{
+	color: darkorchid;
+}
+
+#user_aliases
+{
+	height: 75px;
+	line-height: 140%;
+}
+
+#dittoTable
+{
+	border-spacing: 5px;
+	width: 100%;
+	text-align: center;
+	margin-top: 13px;
+	margin-bottom: 10px;
+}
+
+#andFlag, #orFlag
+{
+	width: 16px;
+	margin: 0 8px;
+	box-sizing: initial;
+	text-align: center;
+}
+
+#preferedAnd, #preferedOr, #defaultOperation
+{
+	margin: 0 3px;
+}

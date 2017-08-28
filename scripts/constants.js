@@ -37,7 +37,7 @@ const VELVET_TAB_CONTENT = `
 	<h4>Aliases</h4>
 	<div class="field">
 		<label for="user_aliases">Aliases used to shorten commonly used requests by assigning a short name to multiple tags. Place one alias per line. Aliases containing themselves will be ignored.</label>
-		<textarea class="input input--wide" style="height: 75px; line-height: 140%;" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
+		<textarea class="input input--wide" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
 		<label for="wrapAliases">Wrap aliases with parenthesis. This can help avoiding operator priority-based issues</label><input type="checkbox" id="wrapAliases" class="checkbox" />
 	</div>
 
@@ -47,15 +47,15 @@ const VELVET_TAB_CONTENT = `
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
 		<p>Allowed flags : .-;:_{}[]\`'?+@#%&/|=</p>
 
-		<table style="border-spacing: 5px; width: 100%; text-align: center; margin-top: 13px; margin-bottom: 10px;">
+		<table id="dittoTable">
 			<tr>
-				<td><label for="andFlag">AND flag</label><input type="text" maxlength="1" id="andFlag" class="input" style="width: 16px; margin: 0 8px; box-sizing: initial; text-align: center;" /></td>
+				<td><label for="andFlag">AND flag</label><input type="text" maxlength="1" id="andFlag" class="input" /></td>
 
-				<td><label for="orFlag">OR flag</label><input type="text" maxlength="1" id="orFlag" class="input" style="width: 16px; margin: 0 8px; box-sizing: initial; text-align: center;" /></td>
+				<td><label for="orFlag">OR flag</label><input type="text" maxlength="1" id="orFlag" class="input" /></td>
 
 				<td>
 					<label for="preferedAnd">Prefered AND form</label>
-					<select id="preferedAnd" class="input" style="margin: 0 3px;">
+					<select id="preferedAnd" class="input">
 						<option value="AND">AND</option>
 						<option value="&&">&&</option>
 						<option value=",">,</option>
@@ -64,7 +64,7 @@ const VELVET_TAB_CONTENT = `
 
 				<td>
 					<label for="preferedOr">Prefered OR form</label>
-					<select id="preferedOr" class="input" style="margin: 0 3px;">
+					<select id="preferedOr" class="input">
 						<option value="OR">OR</option>
 						<option value="||">||</option>
 					</select>
@@ -72,7 +72,7 @@ const VELVET_TAB_CONTENT = `
 			</tr>
 		</table>
 		<label for="defaultOperation">In the case where no flag is given with a ditto alias, use the following operator by default : </label>
-		<select id="defaultOperation" class="input" style="margin: 0 3px;">
+		<select id="defaultOperation" class="input">
 			<option value="AND">AND</option>
 			<option value="OR">OR</option>
 		</select>
