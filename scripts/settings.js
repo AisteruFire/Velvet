@@ -12,10 +12,7 @@ const velvetTab = `<a id="velvet" href="#" data-click-tab="velvet">Velvet</a>`;
 tabSelect.insertAdjacentHTML("beforeend", velvetTab);
 
 // ---------- Creating the content of the tab ----------
-const content = VELVET_TAB_CONTENT;
-
-// Inserting content so that it reacts the same as the other tabs
-tabSelect.insertAdjacentHTML("afterend", content);
+tabSelect.insertAdjacentHTML("afterend", VELVET_TAB_CONTENT);
 
 // ---------- Saving the user's preferences on form submission ----------
 
@@ -28,7 +25,8 @@ document.querySelector("form.edit_user").addEventListener("submit", () => {
 		preferedAnd: document.getElementById("preferedAnd").value,
 		preferedOr: document.getElementById("preferedOr").value,
 		wrapAliases: document.getElementById("wrapAliases").checked,
-		defaultOperation: document.getElementById("defaultOperation").value
+		defaultOperation: document.getElementById("defaultOperation").value,
+		indicateLastSeen: document.getElementById("indicateLastSeen").checked
 	});
 });
 
@@ -43,7 +41,8 @@ chrome.storage.sync.get({
 	preferedAnd: DEFAULT_PREFERED_AND,
 	preferedOr: DEFAULT_PREFERED_OR,
 	wrapAliases: DEFAULT_WRAP_ALIASES,
-	defaultOperation: DEFAULT_OPERATION
+	defaultOperation: DEFAULT_OPERATION,
+	indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN
 }, data => {
 	document.getElementById("user_quick_tags").value = data.quickTags;
 	document.getElementById("user_aliases").value = data.aliases;
@@ -53,6 +52,7 @@ chrome.storage.sync.get({
 	document.getElementById("preferedOr").value = data.preferedOr;
 	document.getElementById("wrapAliases").checked = data.wrapAliases;
 	document.getElementById("defaultOperation").value = data.defaultOperation;
+	document.getElementById("indicateLastSeen").checked = data.indicateLastSeen;
 });
 
 // ---------- Checking for illegal characters for flag ----------

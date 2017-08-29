@@ -4,7 +4,9 @@
     This file contains all constants the extension needs to work properly and consistently. They are not initialised as constants because they may be injected mor than once per page.
 */
 
-const DEFAULT_QUICK_TAGS = "cute",
+// ========== Default parameters ==========
+
+const DEFAULT_QUICK_TAGS = "cute AND fluffy",
 	DEFAULT_ALIASES = "";
 
 // Characters used for the ditto operator
@@ -13,11 +15,16 @@ const DEFAULT_AND_FLAG = "!", DEFAULT_OR_FLAG = "?";
 // Operators used by default when replacing ditto operator by AND or OR. Can be 'AND' or '&&' or ',' ; 'OR' or '||'
 const DEFAULT_PREFERED_AND = "AND", DEFAULT_PREFERED_OR = "OR";
 
-// Wether the aliases should be wrapped with parenthesis or not
+// Whether the aliases should be wrapped with parenthesis or not
 const DEFAULT_WRAP_ALIASES = false;
 
-// Indicates which operator should be used for the ditto operator in case the user doesn't give a flag
+// Which operator should be used for the ditto operator in case the user doesn't give a flag
 const DEFAULT_OPERATION = "AND";
+
+// Whether Velvet should show which was the last image seen when searching for this query
+const DEFAULT_INDICATE_LAST_SEEN = false;
+
+// ========== Labels ==========
 
 // Message to display upon Velvet's installation. Backslashes are doubled, because it is processed a second time so it must be escaped twice.
 const WELCOME_MESSAGE = "Thank you for installing Velvet ! <3 Here are some explanations :\\n\\n-> Quick tags are tags you often use and would like to insert in your requests more easily. In order to do that, type your favorite tags as if you were searching them. To insert them, you'll only have to press the Velvet icon near the search bar, and they'll magically appear.\\n\\n-> Aliases are useful if you want to reduce long requests to a single expression, like turning 'pegasus AND cute AND chest fluff AND safe' to just 'pegacute'. Be careful, for if you choose an alias that is already an existing tag, you won't be able to search it properly.\\n\\nFinally, if you need to access to those settings, you can either go to derpibooru's settings or click on Velvet's icon.\\n\\nIf you want to contact me, feel free to send a private message to fandechimie on derpibooru. See ya !";
@@ -38,14 +45,17 @@ const VELVET_TAB_CONTENT = `
 	<div class="field">
 		<label for="user_aliases">Aliases used to shorten commonly used requests by assigning a short name to multiple tags. Place one alias per line. Aliases containing themselves will be ignored.</label>
 		<textarea class="input input--wide" autocapitalize="none" id="user_aliases" placeholder="alias = tags\nalias = tags\n..."></textarea>
-		<label for="wrapAliases">Wrap aliases with parenthesis. This can help avoiding operator priority-based issues</label><input type="checkbox" id="wrapAliases" class="checkbox" />
+		<label for="wrapAliases">Wrap aliases with parenthesis</label><input type="checkbox" id="wrapAliases" class="checkbox" />
+		<div class="fieldlabel">
+			<i>This can help avoiding operator priority-based issues.</i>
+		</div>
 	</div>
 
 	<h4>Ditto operator</h4>
 	<div class="field">
 		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
-		<p>Allowed flags : .-;:_{}[]\`'?+@#%&/|=</p>
+		<p>Allowed flags : .-;:_{}[]\`'!?+@#%&/|=</p>
 
 		<table id="dittoTable">
 			<tr>
@@ -78,12 +88,21 @@ const VELVET_TAB_CONTENT = `
 		</select>
 	</div>
 
+	<h4>Velvet reminder</h4>
+	<div class="field">
+		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the last to be posted in the request you did on your last visit !</p>
+		<label for="indicateLastSeen">Ask Velvet to remind you which picture was the last post on searches</label><input type="checkbox" id="indicateLastSeen" class="checkbox" />
+		<div class="fieldlabel">
+			<i>If this setting is activated, the picture seen as first the last time you made a search will be bordered with a soothing color.</i>
+		</div>
+	</div>
+
 	<h4>Sorting tags</h4>
 	<div class="field">
 		<p>The following tags are added by Velvet to ease searches. They are used as any other normal tag:</p>
 		<ul>
-			<li><strong>DESC</strong>: sort results descending (default).</li>
-			<li><strong>ASC</strong>: sort results ascending.</li>
+			<li><strong>DESC</strong>: sort results in descending order (default).</li>
+			<li><strong>ASC</strong>: sort results in ascending order.</li>
 			<br />
 			<li><strong>DATE</strong>: sort results by creation date (default)</li>
 			<li><strong>SCORE</strong>: sort results by score</li>

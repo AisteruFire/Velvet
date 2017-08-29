@@ -67,5 +67,7 @@ if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*&/))
 	newLink = newLink.replace(/\?q=\+*/, "?q=*");
 
 if (newLink !== oldLink)
+{
+	window.stop();
 	window.location.replace(newLink);
-
+}

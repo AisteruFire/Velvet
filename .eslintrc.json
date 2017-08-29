@@ -43,6 +43,7 @@
 		"DEFAULT_PREFERED_OR": false,
 		"DEFAULT_WRAP_ALIASES": false,
 		"DEFAULT_OPERATION": false,
+		"DEFAULT_INDICATE_LAST_SEEN": false,
 		"openSettings": false,
 		"chrome": false
 	}

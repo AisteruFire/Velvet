@@ -14,7 +14,7 @@ chrome.storage.sync.get({
 	preferedOr: DEFAULT_PREFERED_OR,
 	wrapAliases: DEFAULT_WRAP_ALIASES,
 	defaultOperation: DEFAULT_OPERATION
-}, function(data){
+}, data => {
 	// ---------- Quick tags button ----------
 	data.quickTags = data.quickTags.trim();
 
