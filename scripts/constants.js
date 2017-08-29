@@ -55,6 +55,7 @@ const VELVET_TAB_CONTENT = `
 	<div class="field">
 		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
+		<p>There also is a special flag <code>\`</code> which allows you to use a certain flag for all sub-aliases in a query which aren't coupled with a flag themselves. For example, if you have an alias <code>abc</code> replaced by <code>def :: safe</code> and <code>def</code> replaced by <code>aj :: cute</code>, <code>\`abc?</code> will be transformed into <code>def? OR safe</code>, then into <code>aj OR cute OR safe</code>, whatever may be the default operator to use. If <code>abc</code> were replaced by <code>def! :: safe</code>, searching for <code>\`abc?</code> would produce <code>aj AND cute OR safe</code> because of the <code>!</code> after <code>def</code>.</p>
 		<p>Allowed flags : .-;:_{}[]'?+@#%&/|=</p>
 
 		<table id="dittoTable">
@@ -88,12 +89,12 @@ const VELVET_TAB_CONTENT = `
 		</select>
 	</div>
 
-	<h4>Velvet reminder</h4>
+	<h4>Velvet reminder (soon)</h4>
 	<div class="field">
-		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the last to be posted in the request you did on your last visit !</p>
+		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the last post in the page you were on your last visit !</p>
 		<label for="indicateLastSeen">Ask Velvet to remind you which picture was the last post on searches</label><input type="checkbox" id="indicateLastSeen" class="checkbox" />
 		<div class="fieldlabel">
-			<i>If this setting is activated, the picture seen as first the last time you made a search will be bordered with a soothing color.</i>
+			<i>If this setting is activated, the last picture seen the last time you made a search will be bordered with a soothing color.</i>
 		</div>
 	</div>
 

@@ -7,6 +7,8 @@
 const settingsTable = document.getElementById("js-setting-table");
 const tabSelect = settingsTable.firstChild;
 
+let andFlag, orFlag, preferedAnd, preferedOr;
+
 // ---------- Creating the tab ----------
 const velvetTab = `<a id="velvet" href="#" data-click-tab="velvet">Velvet</a>`;
 tabSelect.insertAdjacentHTML("beforeend", velvetTab);
@@ -15,15 +17,25 @@ tabSelect.insertAdjacentHTML("beforeend", velvetTab);
 tabSelect.insertAdjacentHTML("afterend", VELVET_TAB_CONTENT);
 
 // ---------- Saving the user's preferences on form submission ----------
-
 document.querySelector("form.edit_user").addEventListener("submit", () => {
+	var quickTags = document.getElementById("user_quick_tags").value;
+	var aliases = document.getElementById("user_aliases").value;
+	var newAndFlag = document.getElementById("andFlag").value;
+	var newOrFlag = document.getElementById("orFlag").value;
+	var newPreferedAnd = document.getElementById("preferedAnd").value;
+	var newPreferedOr = document.getElementById("preferedOr").value;
+
+	// Replacing all flags and operators in quick tags and aliases in case the flags' symbols and operators preferences have been changed
+	quickTags = quickTags.replace(andFlag, newAndFlag).replace(orFlag, newOrFlag).replace(preferedAnd, newPreferedAnd).replace(preferedOr, newPreferedOr);
+	aliases = aliases.replace(andFlag, newAndFlag).replace(orFlag, newOrFlag).replace(preferedAnd, newPreferedAnd).replace(preferedOr, newPreferedOr);
+
 	chrome.storage.sync.set({
-		quickTags: document.getElementById("user_quick_tags").value,
-		aliases: document.getElementById("user_aliases").value,
-		andFlag: document.getElementById("andFlag").value,
-		orFlag: document.getElementById("orFlag").value,
-		preferedAnd: document.getElementById("preferedAnd").value,
-		preferedOr: document.getElementById("preferedOr").value,
+		quickTags: quickTags,
+		aliases: aliases,
+		andFlag: newAndFlag,
+		orFlag: newOrFlag,
+		preferedAnd: newPreferedAnd,
+		preferedOr: newPreferedOr,
 		wrapAliases: document.getElementById("wrapAliases").checked,
 		defaultOperation: document.getElementById("defaultOperation").value,
 		indicateLastSeen: document.getElementById("indicateLastSeen").checked
@@ -53,6 +65,11 @@ chrome.storage.sync.get({
 	document.getElementById("wrapAliases").checked = data.wrapAliases;
 	document.getElementById("defaultOperation").value = data.defaultOperation;
 	document.getElementById("indicateLastSeen").checked = data.indicateLastSeen;
+
+	andFlag = data.andFlag;
+	orFlag = data.orFlag;
+	preferedAnd = data.preferedAnd;
+	preferedOr = data.preferedOr;
 });
 
 // ---------- Checking for illegal characters for flag ----------
