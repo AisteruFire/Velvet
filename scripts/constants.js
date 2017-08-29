@@ -45,7 +45,7 @@ const VELVET_TAB_CONTENT = `
 	<div class="field">
 		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
-		<p>Allowed flags : .-;:_{}[]\`'?+@#%&/|=</p>
+		<p>Allowed flags : .-;:_{}[]'?+@#%&/|=</p>
 
 		<table id="dittoTable">
 			<tr>
