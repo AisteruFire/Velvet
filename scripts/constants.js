@@ -5,8 +5,6 @@
 */
 
 // ========== Default parameters ==========
-const DEFAULT_VELVET_COLOR = "darkorchid";
-
 const DEFAULT_QUICK_TAGS = "cute AND fluffy",
 	DEFAULT_ALIASES = "smexy = glasses AND sexy";
 
@@ -27,6 +25,7 @@ const DEFAULT_INDICATE_LAST_SEEN = false, DEFAULT_INDICATE_FIRST_POST = false;
 
 // ========== CSS ==========
 
+const DEFAULT_VELVET_COLOR = "darkorchid", DEFAULT_VELVET_FIRST_POST_COLOR = "orange";
 const VELVET_REMINDER_BORDER_STYLE = "3px dashed", VELVET_REMINDER_BORDER_RADIUS = "5px";
 
 // ========== Misc. ==========

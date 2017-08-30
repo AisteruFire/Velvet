@@ -7,9 +7,9 @@
 // ========== Velvet reminder ==========
 
 // Processing the following code only if the query is ordered descendingly by date
-let search = window.location.search, sorting = /sf=(date)?/.exec(search), order = /sd=(desc)?/.exec(search);
+let sorting = /sf=(date)?/.exec(window.location.search), order = /sd=(desc)?/.exec(window.location.search);
 
-let query = document.getElementById("q").value;
+let queryField = document.getElementById("q"), query = queryField.value, urlQuery = decodeURI(/q=([^&]*)/.exec(window.location.search.replace(/\+/g, " "))[1]);
 
 /*
 	Velvet reminder is only used when the search (which can't be empty) is ordered descendingly by date.
@@ -27,13 +27,47 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query.length > 0)
 	}, data => {
 		var id, firstImage;
 
+		if (data.indicateLastSeen)
+		{
+			// If there is an image id and the page contains an image...
+			if ((id = data.lastSeenIds[query]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
+			{
+				// If the first image is already bordered in orange...
+				if (firstImage.style.borderColor === DEFAULT_VELVET_FIRST_POST_COLOR)
+				{
+					firstImage.style.borderColor = DEFAULT_VELVET_FIRST_POST_COLOR + " " + DEFAULT_VELVET_COLOR;
+				}
+				else
+				{
+					firstImage.style.border = VELVET_REMINDER_BORDER_STYLE;
+					firstImage.style.borderColor = DEFAULT_VELVET_COLOR;
+					firstImage.style.borderRadius = VELVET_REMINDER_BORDER_RADIUS;
+				}
+			}
+
+			if (document.querySelector("div.media-box"))
+			{
+				// Storing the id of the first pic in the page locally for later storage as lastSeenIds
+				data.tempLastSeenIds[query] = document.querySelector("div.media-box").getAttribute("data-image-id");
+				chrome.storage.sync.set({ tempLastSeenIds: data.tempLastSeenIds });
+
+				// Generates link for resuming browsing
+				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="resumeBrowsing" style="color: ${DEFAULT_VELVET_COLOR}">Resume browsing</a>`);
+
+				document.getElementById("resumeBrowsing").addEventListener("click", () => {
+					queryField.value = `(${urlQuery}) AND id.lt:${data.lastSeenIds[query]}`;
+					queryField.parentNode.submit();
+				});
+			}
+		}
+
 		if (data.indicateFirstPost)
 		{
 			// If there is an image id and the page contains an image...
 			if ((id = data.firstPostIds[query]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
 			{
 				firstImage.style.border = VELVET_REMINDER_BORDER_STYLE;
-				firstImage.style.borderColor = "orange";
+				firstImage.style.borderColor = DEFAULT_VELVET_FIRST_POST_COLOR;
 				firstImage.style.borderRadius = VELVET_REMINDER_BORDER_RADIUS;
 			}
 
@@ -50,29 +84,17 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query.length > 0)
 			}
 
 			chrome.storage.sync.set({ tempFirstPostIds: data.tempFirstPostIds });
-		}
 
-		if (data.indicateLastSeen)
-		{
-			// If there is an image id and the page contains an image...
-			if ((id = data.lastSeenIds[query]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
+			// Generates link for new posts only
+			if (divs)
 			{
-				// If the first image is already bordered in orange...
-				if (firstImage.style.borderColor === "orange")
-				{
-					firstImage.style.borderColor = `orange ${DEFAULT_VELVET_COLOR}` ;
-				}
-				else
-				{
-					firstImage.style.border = VELVET_REMINDER_BORDER_STYLE;
-					firstImage.style.borderColor = DEFAULT_VELVET_COLOR;
-					firstImage.style.borderRadius = VELVET_REMINDER_BORDER_RADIUS;
-				}
-			}
+				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="onlyNew" style="color: ${DEFAULT_VELVET_FIRST_POST_COLOR}">Only new posts</a>`);
 
-			// Storing the id of the first pic in the page locally for later storage as lastSeenIds
-			data.tempLastSeenIds[query] = document.querySelector("div.media-box").getAttribute("data-image-id");
-			chrome.storage.sync.set({ tempLastSeenIds: data.tempLastSeenIds });
+				document.getElementById("onlyNew").addEventListener("click", () => {
+					queryField.value = `(${urlQuery}) AND id.gt:${data.firstPostIds[query]}`;
+					queryField.parentNode.submit();
+				});
+			}
 		}
 	});
 }

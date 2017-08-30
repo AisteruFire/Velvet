@@ -10,7 +10,7 @@ const tabSelect = settingsTable.firstChild;
 let andFlag, orFlag, preferedAnd, preferedOr;
 
 // ---------- Creating the tab ----------
-const velvetTab = `<a id="velvet" href="#" style="${DEFAULT_VELVET_COLOR}" data-click-tab="velvet">Velvet</a>`;
+const velvetTab = `<a id="velvet" href="#" style="color: ${DEFAULT_VELVET_COLOR}" data-click-tab="velvet">Velvet</a>`;
 tabSelect.insertAdjacentHTML("beforeend", velvetTab);
 
 // ---------- Creating the content of the tab ----------

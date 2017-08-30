@@ -24,7 +24,7 @@ chrome.tabs.onRemoved.addListener(() => {
 		tempLastSeenIds: {},
 		tempFirstPostIds: {}
 	}, data => {
-		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*"] }, tabs => {
+		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*", "*://derpicdn.net/*"] }, tabs => {
 			if (tabs.length === 0)
 			{
 				// Object that will be passed to chrome.storage.sync.set to be saved
