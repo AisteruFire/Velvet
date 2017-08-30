@@ -6,7 +6,7 @@
 
 // After installation...
 chrome.runtime.onInstalled.addListener(details => {
-	if (details.reason == "install") openSettings(WELCOME_MESSAGE);
+	if (details.reason === "install") openSettings(WELCOME_MESSAGE);
 });
 
 // When the extension's icon is clicked...
@@ -18,20 +18,29 @@ chrome.browserAction.onClicked.addListener(() => {
 chrome.tabs.onRemoved.addListener(() => {
 	chrome.storage.sync.get({
 		indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
+		indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
 		lastSeenIds: {},
-		tempIds: {}
+		firstPostIds: {},
+		tempLastSeenIds: {},
+		tempFirstPostIds: {}
 	}, data => {
-		if (data.indicateLastSeen)
-		{
-			chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*"] }, tabs => {
-				if (tabs.length === 0)
-				{
-					chrome.storage.sync.set({
-						lastSeenIds: data.tempIds,
-						tempIds: {}
-					});
-				}
-			});
-		}
+		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*"] }, tabs => {
+			if (tabs.length === 0)
+			{
+				// Object that will be passed to chrome.storage.sync.set to be saved
+				var objectToSave = {
+					tempLastSeenIds: {},
+					tempFirstPostIds: {}
+				};
+
+				if (data.indicateLastSeen)
+					objectToSave.lastSeenIds = data.tempLastSeenIds;
+
+				if (data.indicateFirstPost)
+					objectToSave.firstPostIds = data.tempFirstPostIds;
+
+				chrome.storage.sync.set(objectToSave);
+			}
+		});
 	});
 });

@@ -65,7 +65,7 @@ function processQuery(query, aliases, andFlag, orFlag, defaultFlagValue, flagVal
 			*/
 			while ((match = regExpAlias.exec(query)))
 			{
-				let aliasFlagValue = match[3] == andFlag ? 2 : match[3] == orFlag ? 1 : backtick ? flagValue : defaultFlagValue;
+				let aliasFlagValue = match[3] === andFlag ? 2 : match[3] === orFlag ? 1 : backtick ? flagValue : defaultFlagValue;
 
 				// Replacing the alias with the query it represents
 				query = query.replace(regExpAlias, processQuery(
@@ -83,7 +83,7 @@ function processQuery(query, aliases, andFlag, orFlag, defaultFlagValue, flagVal
 
 	// If the query contains ditto operators
 	if (regExpDitto.test(query))
-		query = query.replace(regExpDitto, flagValue == 2 ? " AND " : flagValue == 1 ? " OR " : " ");
+		query = query.replace(regExpDitto, flagValue === 2 ? " AND " : flagValue === 1 ? " OR " : " ");
 
 	return query;
 }

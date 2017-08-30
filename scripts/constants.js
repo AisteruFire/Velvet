@@ -5,9 +5,10 @@
 */
 
 // ========== Default parameters ==========
+const DEFAULT_VELVET_COLOR = "darkorchid";
 
 const DEFAULT_QUICK_TAGS = "cute AND fluffy",
-	DEFAULT_ALIASES = "";
+	DEFAULT_ALIASES = "smexy = glasses AND sexy";
 
 // Characters used for the ditto operator
 const DEFAULT_AND_FLAG = "!", DEFAULT_OR_FLAG = "?";
@@ -21,12 +22,12 @@ const DEFAULT_WRAP_ALIASES = false;
 // Which operator should be used for the ditto operator in case the user doesn't give a flag
 const DEFAULT_OPERATION = "AND";
 
-// Whether Velvet should show which was the last image seen when searching for this query
-const DEFAULT_INDICATE_LAST_SEEN = false;
+// Used for Velvet reminder
+const DEFAULT_INDICATE_LAST_SEEN = false, DEFAULT_INDICATE_FIRST_POST = false;
 
 // ========== CSS ==========
 
-const VELVET_REMINDER_BORDER = "3px dashed darkorchid", VELVET_REMINDER_BORDER_RADIUS = "5px";
+const VELVET_REMINDER_BORDER_STYLE = "3px dashed", VELVET_REMINDER_BORDER_RADIUS = "5px";
 
 // ========== Misc. ==========
 
@@ -59,10 +60,9 @@ const VELVET_TAB_CONTENT = `
 
 	<h4>Ditto operator</h4>
 	<div class="field">
-		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
+		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag. <strong>Allowed flags : -;:_{}[]'?+@#%&/|=</strong></p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
 		<p>There also is a special flag <code>\`</code> which allows you to use a certain flag for all sub-aliases in a query which aren't coupled with a flag themselves. For example, if you have an alias <code>abc</code> replaced by <code>def :: safe</code> and <code>def</code> replaced by <code>aj :: cute</code>, <code>\`abc?</code> will be transformed into <code>def? OR safe</code>, then into <code>aj OR cute OR safe</code>, whatever may be the default operator to use. If <code>abc</code> were replaced by <code>def! :: safe</code>, searching for <code>\`abc?</code> would produce <code>aj AND cute OR safe</code> because of the <code>!</code> after <code>def</code>.</p>
-		<p>Allowed flags : -;:_{}[]'?+@#%&/|=</p>
 
 		<table id="dittoTable">
 			<tr>
@@ -88,6 +88,8 @@ const VELVET_TAB_CONTENT = `
 				</td>
 			</tr>
 		</table>
+	</div>
+	<div>
 		<label for="defaultOperation">In the case where no flag is given with a ditto alias, use the following operator by default : </label>
 		<select id="defaultOperation" class="input">
 			<option value="AND">AND</option>
@@ -96,11 +98,18 @@ const VELVET_TAB_CONTENT = `
 	</div>
 
 	<h4>Velvet reminder</h4>
+	<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! <i>(works only on descending date sorting)</i></p>
+	<p>
 	<div class="field">
-		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the top left picture on the page you were on your last visit !</p>
-		<label for="indicateLastSeen">Ask Velvet to remind you which picture was the last post on searches</label><input type="checkbox" id="indicateLastSeen" class="checkbox" />
+		<label for="indicateLastSeen">Ask Velvet to remind you which image you last saw</label><input type="checkbox" id="indicateLastSeen" class="checkbox" />
 		<div class="fieldlabel">
-			<i>If this setting is activated, the last picture seen the last time you made a search will be bordered with a soothing color.</i>
+			<i>Borders the last image seen the last time you made a search with a soothing purple color.</i>
+		</div>
+	</div>
+	<div class="field">
+		<label for="indicateFirstPost">Ask Velvet to remind you which image was the newest last time</label><input type="checkbox" id="indicateFirstPost" class="checkbox" />
+		<div class="fieldlabel">
+			<i>Borders the image which was the latest the last time you made a search with a calming orange color.</i>
 		</div>
 	</div>
 

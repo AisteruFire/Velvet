@@ -68,7 +68,7 @@ newLink = newLink.replace(/=\+*/, "=").replace(/\+*&/g, "&");   // Plusses remai
 // 	newLink = newLink.replace(/\?q=\+*/, "?q=*");
 
 
-if (newLink !== oldLink)
+if (newLink  === oldLink)
 {
 	window.stop();
 	window.location.replace(newLink);

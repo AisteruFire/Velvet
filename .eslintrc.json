@@ -44,8 +44,11 @@
 		"DEFAULT_WRAP_ALIASES": false,
 		"DEFAULT_OPERATION": false,
 		"DEFAULT_INDICATE_LAST_SEEN": false,
-		"VELVET_REMINDER_BORDER": false,
+		"DEFAULT_INDICATE_FIRST_POST": false,
+		"VELVET_REMINDER_BORDER_STYLE": false,
 		"VELVET_REMINDER_BORDER_RADIUS": false,
+		"DEFAULT_VELVET_COLOR": false,
+		"FORBIDDEN_FLAGS": false,
 		"processQuery": false,
 		"openSettings": false,
 		"chrome": false

@@ -45,7 +45,7 @@ chrome.storage.sync.get({
 
 		for (var alias of split)
 		{
-			if (alias.split("=").length == 2)
+			if (alias.split("=").length === 2)
 			{
 				aliases.push(alias.trim());
 			}
