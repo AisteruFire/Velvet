@@ -75,7 +75,7 @@ chrome.storage.sync.get({
 // ---------- Checking for illegal characters for flag ----------
 function checkForbiddenFlags(e)
 {
-	if (/[a-zA-Z0-9\x80-\xFF()*,"\\~^ ]/.test(String.fromCharCode(e.keyCode)))
+	if (FORBIDDEN_FLAGS.test(String.fromCharCode(e.keyCode)))
 		e.preventDefault();
 }
 

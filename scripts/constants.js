@@ -28,13 +28,15 @@ const DEFAULT_INDICATE_LAST_SEEN = false;
 
 const VELVET_REMINDER_BORDER = "3px dashed darkorchid", VELVET_REMINDER_BORDER_RADIUS = "5px";
 
-// ========== Labels ==========
+// ========== Misc. ==========
 
 // Message to display upon Velvet's installation. Backslashes are doubled, because it is processed a second time so it must be escaped twice.
 const WELCOME_MESSAGE = "Thank you for installing Velvet ! <3 Here are some explanations :\\n\\n-> Quick tags are tags you often use and would like to insert in your requests more easily. In order to do that, type your favorite tags as if you were searching them. To insert them, you'll only have to press the Velvet icon near the search bar, and they'll magically appear.\\n\\n-> Aliases are useful if you want to reduce long requests to a single expression, like turning 'pegasus AND cute AND chest fluff AND safe' to just 'pegacute'. Be careful, for if you choose an alias that is already an existing tag, you won't be able to search it properly.\\n\\nFinally, if you need to access to those settings, you can either go to derpibooru's settings or click on Velvet's icon.\\n\\nIf you want to contact me, feel free to send a private message to fandechimie on derpibooru. See ya !";
 
 // Title of the quick tags button
 const QUICK_TAGS_BUTTON_TITLE = "Velvet quick search";
+
+const FORBIDDEN_FLAGS = /[a-zA-Z0-9\x80-\xFF()*,"\\~^.` ]/;
 
 // Content of the Velvet tab
 const VELVET_TAB_CONTENT = `
@@ -60,7 +62,7 @@ const VELVET_TAB_CONTENT = `
 		<p>There is a polymorphous operator available : the <em>ditto</em>, represented by <code>::</code>, which can be either an AND or an OR. In order to choose its role, you simply have to add the appropriate flag to your alias tag.</p>
 		<p>For example, if your alias is <code>smexy = glasses :: sexy :: cute</code>, your AND flag <code>!</code> and your OR flag <code>?</code>, searching for <code>smexy!</code> will search for <code>glasses AND sexy AND cute</code>, whereas <code>smexy?</code> will search for <code>glasses OR sexy OR cute</code>.</p>
 		<p>There also is a special flag <code>\`</code> which allows you to use a certain flag for all sub-aliases in a query which aren't coupled with a flag themselves. For example, if you have an alias <code>abc</code> replaced by <code>def :: safe</code> and <code>def</code> replaced by <code>aj :: cute</code>, <code>\`abc?</code> will be transformed into <code>def? OR safe</code>, then into <code>aj OR cute OR safe</code>, whatever may be the default operator to use. If <code>abc</code> were replaced by <code>def! :: safe</code>, searching for <code>\`abc?</code> would produce <code>aj AND cute OR safe</code> because of the <code>!</code> after <code>def</code>.</p>
-		<p>Allowed flags : .-;:_{}[]'?+@#%&/|=</p>
+		<p>Allowed flags : -;:_{}[]'?+@#%&/|=</p>
 
 		<table id="dittoTable">
 			<tr>
