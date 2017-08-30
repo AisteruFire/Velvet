@@ -1,6 +1,6 @@
 {
     "name": "Velvet",
-    "version": "1.1.4",
+    "version": "1.2",
     "description": "Eases the browsing of Derpibooru by providing new functionalities.",
     "manifest_version": 2,
 
@@ -10,12 +10,12 @@
         "128": "icons/icon-128.png"
     },
 
-    "permissions": ["storage", "tabs", "https://derpibooru.org/settings"],
+    "permissions": ["storage", "tabs", "https://derpibooru.org/settings", "https://trixiebooru.org/settings"],
 
     "web_accessible_resources": [ "icons/velvetIcon.png" ],
 
     "background": {
-        "scripts": ["scripts/constants.js", "scripts/functions.js", "scripts/openSettings.js"],
+        "scripts": ["scripts/constants.js", "scripts/functions.js", "scripts/background.js"],
         "persistent": false
       },
 
@@ -38,11 +38,19 @@
             "js": ["scripts/beforeSubmit.js"],
             "run_at": "document_end"
         },
+
         {
             "matches": ["*://*.derpibooru.org/search*", "*://*.trixiebooru.org/search*"],
             "js": ["scripts/afterSubmit.js"],
             "run_at": "document_start"
         },
+
+		{
+            "matches": ["*://*.derpibooru.org/search*", "*://*.trixiebooru.org/search*", "*://*.derpibooru.org/tags/*", "*://*.trixiebooru.org/tags/*"],
+            "js": ["scripts/afterLoad.js"],
+            "run_at": "document_end"
+        },
+
         {
             "matches": ["*://*.derpibooru.org/settings", "*://*.trixiebooru.org/settings"],
 			"css": ["css/settings.css"],

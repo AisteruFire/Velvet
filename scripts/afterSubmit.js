@@ -62,9 +62,11 @@ newLink = newLink.replace(/(\+)*(AND|OR|,|&&|\|\|)?(\+)*(ASC|DESC)/g, "");  // R
 newLink = newLink.replace(/\+{2,}/g, "+");  // Unnecessary plusses
 newLink = newLink.replace(/=\+*/, "=").replace(/\+*&/g, "&");   // Plusses remaining at the beginning or the end of the query
 
-// If the query is empty, we put the * wildcard
-if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*&/))
-	newLink = newLink.replace(/\?q=\+*/, "?q=*");
+// If the query is empty, we put the * wildcard (disabled because Derpibooru uses it as a feature)
+
+// if (newLink.match(/\?q=\+*$/) || newLink.match(/\?q=\+*&/))
+// 	newLink = newLink.replace(/\?q=\+*/, "?q=*");
+
 
 if (newLink !== oldLink)
 {

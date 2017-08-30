@@ -10,7 +10,7 @@ function openSettings(alert)
 		let js = "while (!document.getElementById('velvet')); document.getElementById('velvet').click();";  // Waiting for the Velvet tab to be created
 
 		if (alert)  // If there is some text to show to the user...
-			js += "alert(\"" + alert + "\");";
+			js += `alert("${alert}");`;
 
 		chrome.tabs.executeScript(tab.id, {code: js});
 	});

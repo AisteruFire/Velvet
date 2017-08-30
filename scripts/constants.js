@@ -24,6 +24,10 @@ const DEFAULT_OPERATION = "AND";
 // Whether Velvet should show which was the last image seen when searching for this query
 const DEFAULT_INDICATE_LAST_SEEN = false;
 
+// ========== CSS ==========
+
+const VELVET_REMINDER_BORDER = "3px dashed darkorchid", VELVET_REMINDER_BORDER_RADIUS = "5px";
+
 // ========== Labels ==========
 
 // Message to display upon Velvet's installation. Backslashes are doubled, because it is processed a second time so it must be escaped twice.
@@ -89,9 +93,9 @@ const VELVET_TAB_CONTENT = `
 		</select>
 	</div>
 
-	<h4>Velvet reminder (soon)</h4>
+	<h4>Velvet reminder</h4>
 	<div class="field">
-		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the last post in the page you were on your last visit !</p>
+		<p>Have you ever roamed on Derpibooru, admiring an artist's beautiful designs or spending time searching for the best Twilight x Flash Sentry picture ever, and when you come back next time, there's a gazillion new pictures and you can't remember where you were ? Well, not anymore ! Velvet can tell you which picture was the top left picture on the page you were on your last visit !</p>
 		<label for="indicateLastSeen">Ask Velvet to remind you which picture was the last post on searches</label><input type="checkbox" id="indicateLastSeen" class="checkbox" />
 		<div class="fieldlabel">
 			<i>If this setting is activated, the last picture seen the last time you made a search will be bordered with a soothing color.</i>
