@@ -34,10 +34,24 @@ chrome.tabs.onRemoved.addListener(() => {
 				};
 
 				if (data.indicateLastSeen)
-					objectToSave.lastSeenIds = data.tempLastSeenIds;
+				{
+					objectToSave.lastSeenIds = data.lastSeenIds;
+
+					for (let query in data.tempLastSeenIds)
+					{
+						objectToSave.lastSeenIds[query] = data.tempLastSeenIds[query];
+					}
+				}
 
 				if (data.indicateFirstPost)
-					objectToSave.firstPostIds = data.tempFirstPostIds;
+				{
+					objectToSave.firstPostIds = data.firstPostIds;
+
+					for (let query in data.tempFirstPostIds)
+					{
+						objectToSave.firstPostIds[query] = data.tempFirstPostIds[query];
+					}
+				}
 
 				chrome.storage.sync.set(objectToSave);
 			}

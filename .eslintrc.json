@@ -52,6 +52,7 @@
 		"FORBIDDEN_FLAGS": false,
 		"processQuery": false,
 		"openSettings": false,
+		"unescapeString": false,
 		"chrome": false
 	}
 }

@@ -87,3 +87,10 @@ function processQuery(query, aliases, andFlag, orFlag, defaultFlagValue, flagVal
 
 	return query;
 }
+
+// Function that replaces all escaped characters in tags and queries, such as -colon- or -dot- for tags and + for both
+function unescapeString(escapedString)
+{
+	// Strangely, it seems the colon isn't replaced with the decodeURI
+	return escapedString.replace(/-colon-/g, ":").replace(/%3A/g, ":").replace(/-dash-/g, "-").replace(/-dot-/g, ".").replace(/\+/g, " ");
+}
