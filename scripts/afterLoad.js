@@ -60,7 +60,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="resumeBrowsing" style="color: ${DEFAULT_VELVET_COLOR}">Resume browsing</a>`);
 
 				document.getElementById("resumeBrowsing").addEventListener("click", () => {
-					queryField.value = `(${urlQuery}) AND id.lt:${data.lastSeenIds[query]}`;
+					queryField.value = `(${query}) AND id.lt:${data.lastSeenIds[query]}`;
 					queryField.parentNode.submit();
 				});
 			}
@@ -102,7 +102,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="onlyNew" style="color: ${DEFAULT_VELVET_FIRST_POST_COLOR}">Only new posts</a>`);
 
 				document.getElementById("onlyNew").addEventListener("click", () => {
-					queryField.value = `(${urlQuery}) AND id.gt:${data.firstPostIds[query]}`;
+					queryField.value = `(${query}) AND id.gt:${data.firstPostIds[query]}`;
 					queryField.parentNode.submit();
 				});
 			}
