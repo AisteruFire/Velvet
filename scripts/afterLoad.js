@@ -22,7 +22,7 @@ else if (urlTag)
 	query = decodeURI(urlTag[1]);
 
 let queryField = document.getElementById("q");
-let mediaBoxes = document.querySelectorAll("div.media-box");
+let box, mediaBoxes = document.querySelectorAll("div.media-box");
 
 /*
 	Velvet reminder is only used when the search (which can't be empty) is ordered descendingly by date, and produces results.
@@ -53,6 +53,18 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 			// Storing the id of the first pic for later storage as lastSeenIds
 			data.tempLastSeenIds[query] = Number(mediaBoxes[0].getAttribute("data-image-id"));
 			chrome.storage.sync.set({ tempLastSeenIds: data.tempLastSeenIds });
+
+			// When an image is opened or up/downvoted, it is considered seen
+			for (box of mediaBoxes)
+			{
+				box.addEventListener("mouseup", e => {
+					if (e.target.tagName === "A" || e.target.tagName === "IMG")
+					{
+						data.tempLastSeenIds[query] = Math.min(data.tempLastSeenIds[query], Number(e.currentTarget.getAttribute("data-image-id")));
+						chrome.storage.sync.set({ tempLastSeenIds: data.tempLastSeenIds });
+					}
+				});
+			}
 
 			// Generates link for resuming browsing
 			if (data.lastSeenIds[query])
@@ -89,9 +101,9 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 			if (!data.tempFirstPostIds[query])
 				data.tempFirstPostIds[query] = -1;
 
-			for (var div of mediaBoxes)
+			for (box of mediaBoxes)
 			{
-				data.tempFirstPostIds[query] = Math.max(data.tempFirstPostIds[query], Number(div.getAttribute("data-image-id")));
+				data.tempFirstPostIds[query] = Math.max(data.tempFirstPostIds[query], Number(box.getAttribute("data-image-id")));
 			}
 
 			chrome.storage.sync.set({ tempFirstPostIds: data.tempFirstPostIds });
