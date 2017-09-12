@@ -4,12 +4,12 @@
     This file contains the Javascript that needs to be executed in the background.
 */
 
-// After installation...
+// After installation, open settings with a welcome message
 chrome.runtime.onInstalled.addListener(details => {
 	if (details.reason === "install") openSettings(WELCOME_MESSAGE);
 });
 
-// When the extension's icon is clicked...
+// When the extension's icon is clicked, open settings
 chrome.browserAction.onClicked.addListener(() => {
 	openSettings();
 });
@@ -22,7 +22,8 @@ chrome.tabs.onRemoved.addListener(() => {
 		lastSeenIds: {},
 		firstPostIds: {},
 		tempLastSeenIds: {},
-		tempFirstPostIds: {}
+		tempFirstPostIds: {},
+		ignoreList: {}
 	}, data => {
 		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*", "*://derpicdn.net/*"] }, tabs => {
 			if (tabs.length === 0)
@@ -30,7 +31,8 @@ chrome.tabs.onRemoved.addListener(() => {
 				// Object that will be passed to chrome.storage.sync.set to be saved
 				var objectToSave = {
 					tempLastSeenIds: {},
-					tempFirstPostIds: {}
+					tempFirstPostIds: {},
+					ignoreList: {}
 				};
 
 				if (data.indicateLastSeen)
@@ -39,7 +41,9 @@ chrome.tabs.onRemoved.addListener(() => {
 
 					for (let query in data.tempLastSeenIds)
 					{
-						objectToSave.lastSeenIds[query] = data.tempLastSeenIds[query];
+						// Don't save ignored queries
+						if (!data.ignoreList[query])
+							objectToSave.lastSeenIds[query] = data.tempLastSeenIds[query];
 					}
 				}
 
@@ -49,7 +53,8 @@ chrome.tabs.onRemoved.addListener(() => {
 
 					for (let query in data.tempFirstPostIds)
 					{
-						objectToSave.firstPostIds[query] = data.tempFirstPostIds[query];
+						if (!data.ignoreList[query])
+							objectToSave.firstPostIds[query] = data.tempFirstPostIds[query];
 					}
 				}
 

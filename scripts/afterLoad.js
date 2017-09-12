@@ -7,7 +7,7 @@
 // ========== Velvet reminder ==========
 
 // Processing the following code only if the query is ordered descendingly by date
-let sorting = /sf=(date)?/.exec(window.location.search), order = /sd=(desc)?/.exec(window.location.search);
+let sorting = /sf=(created_at)?/.exec(window.location.search), order = /sd=(desc)?/.exec(window.location.search);
 
 /*
 	The URL is used for the query, as it can be changed in the queryField without being submitted (which can falsify results).
@@ -36,10 +36,12 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 		lastSeenIds: {},
 		firstPostIds: {},
 		tempLastSeenIds: {},
-		tempFirstPostIds: {}
+		tempFirstPostIds: {},
+		ignoreList: {}
 	}, data => {
 		let id, firstImage;
 
+		// Last picture seen when browsed a query
 		if (data.indicateLastSeen)
 		{
 			// If there is an image id stored and the page contains the image corresponding...
@@ -72,12 +74,19 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="resumeBrowsing" style="color: ${DEFAULT_VELVET_COLOR}">Resume browsing</a>`);
 
 				document.getElementById("resumeBrowsing").addEventListener("click", () => {
-					queryField.value = `(${query}) AND id.lt:${data.lastSeenIds[query]}`;
-					queryField.parentNode.submit();
+					var id = data.lastSeenIds[query];
+
+					// Prevents a bug when the user comes back on the page without reloading it
+					if (id)
+					{
+						queryField.value = `(${query}) AND id.lt:${id}`;
+						queryField.parentNode.submit();
+					}
 				});
 			}
 		}
 
+		// First picture of the query at the time the query was made
 		if (data.indicateFirstPost)
 		{
 			// If there is an image id and the page contains an image...
@@ -114,10 +123,34 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="onlyNew" style="color: ${DEFAULT_VELVET_FIRST_POST_COLOR}">Only new posts</a>`);
 
 				document.getElementById("onlyNew").addEventListener("click", () => {
-					queryField.value = `(${query}) AND id.gt:${data.firstPostIds[query]}`;
-					queryField.parentNode.submit();
+					var id = data.firstPostIds[query];
+
+					// Prevents a bug when the user comes back on the page without reloading it
+					if (id)
+					{
+						queryField.value = `(${query}) AND id.gt:${data.firstPostIds[query]}`;
+						queryField.parentNode.submit();
+					}
 				});
 			}
+		}
+
+		// Don't remember ids this time (in case the user wants to resume browsing another day)
+		if (data.indicateLastSeen || data.indicateFirstPost)
+		{
+			// Toogles the checkbox's checking according to the user's choice
+			let checked = data.ignoreList[query] ? "checked" : "";
+
+			document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<label style="color: #1a7b0e; display: inline-block; cursor: pointer; font-weight: bold;">Ignore this query<input id="ignoreCheck" type="checkbox" style="margin-left: 5px; vertical-align: middle;" ${checked} /></label>`);
+
+			document.getElementById("ignoreCheck").addEventListener("change", e => {
+				if (e.currentTarget.checked)
+					data.ignoreList[query] = 1;
+				else
+					delete data.ignoreList[query];
+
+				chrome.storage.sync.set({ ignoreList: data.ignoreList });
+			});
 		}
 	});
 }
