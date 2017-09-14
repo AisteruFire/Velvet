@@ -141,7 +141,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 			// Toogles the checkbox's checking according to the user's choice
 			let checked = data.ignoreList[query] ? "checked" : "";
 
-			document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<label style="color: #1a7b0e; display: inline-block; cursor: pointer; font-weight: bold;">Ignore this query<input id="ignoreCheck" type="checkbox" style="margin-left: 5px; vertical-align: middle;" ${checked} /></label>`);
+			document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<label style="color: #1a7b0e; display: inline-block; cursor: pointer; font-weight: bold;">Don't remember this search<input id="ignoreCheck" type="checkbox" style="margin-left: 5px; vertical-align: middle;" ${checked} /></label>`);
 
 			document.getElementById("ignoreCheck").addEventListener("change", e => {
 				if (e.currentTarget.checked)
