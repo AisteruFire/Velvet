@@ -19,8 +19,9 @@ chrome.tabs.onRemoved.addListener(() => {
 	chrome.storage.sync.get({
 		indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
 		indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
-		lastSeenIds: {},
-		firstPostIds: {},
+		lastSeenIds: [],
+		firstPostIds: [],
+		queriesIds: [],
 		tempLastSeenIds: {},
 		tempFirstPostIds: {},
 		ignoreList: {}
@@ -30,10 +31,52 @@ chrome.tabs.onRemoved.addListener(() => {
 			{
 				// Object that will be passed to chrome.storage.sync.set to be saved
 				var objectToSave = {
+					queriesIds: [],
 					tempLastSeenIds: {},
 					tempFirstPostIds: {},
 					ignoreList: {}
 				};
+
+				/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior */
+				// If there are data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet
+				if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
+				{
+					objectToSave.queriesIds = data.queriesIds;
+					var tempLastSeenIds = [];
+					var tempFirstPostIds = [];
+
+					// Transfering lastSeenIds
+					for (let query in data.lastSeenIds)
+					{
+						if (data.lastSeenIds.hasOwnProperty(query))
+						{
+							if (objectToSave.queriesIds.indexOf(query) === -1)
+								objectToSave.queriesIds.push(query);
+
+							tempLastSeenIds[objectToSave.queriesIds.indexOf(query)] = data.lastSeenIds[query];
+						}
+					}
+
+					data.lastSeenIds = objectToSave.lastSeenIds = tempLastSeenIds;
+
+					chrome.storage.sync.remove("lastSeenIds");
+
+					// Transfering firstPostIds
+					for (let query in data.firstPostIds)
+					{
+						if (data.firstPostIds.hasOwnProperty(query))
+						{
+							if (objectToSave.queriesIds.indexOf(query) === -1)
+								objectToSave.queriesIds.push(query);
+
+							tempFirstPostIds[objectToSave.queriesIds.indexOf(query)] = data.firstPostIds[query];
+						}
+					}
+
+					data.firstPostIds = objectToSave.firstPostIds = tempFirstPostIds;
+
+					chrome.storage.sync.remove("firstPostIds");
+				}
 
 				if (data.indicateLastSeen)
 				{
@@ -43,7 +86,12 @@ chrome.tabs.onRemoved.addListener(() => {
 					{
 						// Don't save ignored queries
 						if (!data.ignoreList[query])
-							objectToSave.lastSeenIds[query] = data.tempLastSeenIds[query];
+						{
+							if (objectToSave.queriesIds.indexOf(query) === -1)
+								objectToSave.queriesIds.push(query);
+
+							objectToSave.lastSeenIds[objectToSave.queriesIds.indexOf(query)] = data.tempLastSeenIds[query];
+						}
 					}
 				}
 
@@ -53,8 +101,14 @@ chrome.tabs.onRemoved.addListener(() => {
 
 					for (let query in data.tempFirstPostIds)
 					{
+						// Don't save ignored queries
 						if (!data.ignoreList[query])
-							objectToSave.firstPostIds[query] = data.tempFirstPostIds[query];
+						{
+							if (objectToSave.queriesIds.indexOf(query) === -1)
+								objectToSave.queriesIds.push(query);
+
+							objectToSave.firstPostIds[objectToSave.queriesIds.indexOf(query)] = data.tempFirstPostIds[query];
+						}
 					}
 				}
 

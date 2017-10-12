@@ -33,8 +33,9 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 	chrome.storage.sync.get({
 		indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
 		indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
-		lastSeenIds: {},
-		firstPostIds: {},
+		lastSeenIds: [],
+		firstPostIds: [],
+		queriesIds: [],
 		tempLastSeenIds: {},
 		tempFirstPostIds: {},
 		ignoreList: {}
@@ -45,7 +46,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 		if (data.indicateLastSeen)
 		{
 			// If there is an image id stored and the page contains the image corresponding...
-			if ((id = data.lastSeenIds[query]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
+			if (data.queriesIds.indexOf(query) > -1 && (id = data.lastSeenIds[data.queriesIds.indexOf(query)]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
 			{
 				firstImage.style.border = VELVET_REMINDER_BORDER_STYLE;
 				firstImage.style.borderColor = DEFAULT_VELVET_COLOR;
@@ -69,12 +70,12 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 			}
 
 			// Generates link for resuming browsing
-			if (data.lastSeenIds[query])
+			if (data.queriesIds.indexOf(query) > -1 && data.lastSeenIds[data.queriesIds.indexOf(query)])
 			{
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="resumeBrowsing" style="color: ${DEFAULT_VELVET_COLOR}">Resume browsing</a>`);
 
 				document.getElementById("resumeBrowsing").addEventListener("click", () => {
-					var id = data.lastSeenIds[query];
+					var id = data.lastSeenIds[data.queriesIds.indexOf(query)];
 
 					// Prevents a bug when the user comes back on the page without reloading it
 					if (id)
@@ -90,7 +91,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 		if (data.indicateFirstPost)
 		{
 			// If there is an image id and the page contains an image...
-			if ((id = data.firstPostIds[query]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
+			if (data.queriesIds.indexOf(query) > -1 && (id = data.firstPostIds[data.queriesIds.indexOf(query)]) && (firstImage = document.querySelector(`div.media-box[data-image-id="${id}"]`)))
 			{
 				// If the first image is already bordered...
 				if (firstImage.style.borderColor === DEFAULT_VELVET_COLOR)
@@ -105,8 +106,6 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				}
 			}
 
-
-			// If no id is set, it's set to -1
 			if (!data.tempFirstPostIds[query])
 				data.tempFirstPostIds[query] = -1;
 
@@ -118,12 +117,12 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 			chrome.storage.sync.set({ tempFirstPostIds: data.tempFirstPostIds });
 
 			// Generates link for only new posts
-			if (data.firstPostIds[query])
+			if (data.queriesIds.indexOf(query) > -1 && data.firstPostIds[data.queriesIds.indexOf(query)])
 			{
 				document.querySelector("#imagelist_container > section > div.flex__right").insertAdjacentHTML("afterbegin", `<a id="onlyNew" style="color: ${DEFAULT_VELVET_FIRST_POST_COLOR}">Only new posts</a>`);
 
 				document.getElementById("onlyNew").addEventListener("click", () => {
-					var id = data.firstPostIds[query];
+					var id = data.firstPostIds[data.queriesIds.indexOf(query)];
 
 					// Prevents a bug when the user comes back on the page without reloading it
 					if (id)
