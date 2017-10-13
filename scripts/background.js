@@ -31,7 +31,7 @@ chrome.tabs.onRemoved.addListener(() => {
 			{
 				// Object that will be passed to chrome.storage.sync.set to be saved
 				var objectToSave = {
-					queriesIds: [],
+					queriesIds: data.queriesIds,
 					tempLastSeenIds: {},
 					tempFirstPostIds: {},
 					ignoreList: {}
@@ -41,9 +41,7 @@ chrome.tabs.onRemoved.addListener(() => {
 				// If there are data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet
 				if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
 				{
-					objectToSave.queriesIds = data.queriesIds;
-					var tempLastSeenIds = [];
-					var tempFirstPostIds = [];
+					var tempIds = [];
 
 					// Transfering lastSeenIds
 					for (let query in data.lastSeenIds)
@@ -53,13 +51,11 @@ chrome.tabs.onRemoved.addListener(() => {
 							if (objectToSave.queriesIds.indexOf(query) === -1)
 								objectToSave.queriesIds.push(query);
 
-							tempLastSeenIds[objectToSave.queriesIds.indexOf(query)] = data.lastSeenIds[query];
+							tempIds[objectToSave.queriesIds.indexOf(query)] = data.lastSeenIds[query];
 						}
 					}
 
-					data.lastSeenIds = objectToSave.lastSeenIds = tempLastSeenIds;
-
-					chrome.storage.sync.remove("lastSeenIds");
+					data.lastSeenIds = objectToSave.lastSeenIds = tempIds;
 
 					// Transfering firstPostIds
 					for (let query in data.firstPostIds)
@@ -69,13 +65,11 @@ chrome.tabs.onRemoved.addListener(() => {
 							if (objectToSave.queriesIds.indexOf(query) === -1)
 								objectToSave.queriesIds.push(query);
 
-							tempFirstPostIds[objectToSave.queriesIds.indexOf(query)] = data.firstPostIds[query];
+							tempIds[objectToSave.queriesIds.indexOf(query)] = data.firstPostIds[query];
 						}
 					}
 
-					data.firstPostIds = objectToSave.firstPostIds = tempFirstPostIds;
-
-					chrome.storage.sync.remove("firstPostIds");
+					data.firstPostIds = objectToSave.firstPostIds = tempIds;
 				}
 
 				if (data.indicateLastSeen)
