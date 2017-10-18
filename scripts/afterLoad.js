@@ -127,7 +127,7 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 					// Prevents a bug when the user comes back on the page without reloading it
 					if (id)
 					{
-						queryField.value = `(${query}) AND id.gt:${data.firstPostIds[query]}`;
+						queryField.value = `(${query}) AND id.gt:${id}`;
 						queryField.parentNode.submit();
 					}
 				});
