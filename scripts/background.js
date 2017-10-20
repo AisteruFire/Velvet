@@ -29,16 +29,8 @@ chrome.tabs.onRemoved.addListener(() => {
 		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*", "*://derpicdn.net/*"] }, tabs => {
 			if (tabs.length === 0)
 			{
-				// Object that will be passed to chrome.storage.sync.set to be saved
-				var objectToSave = {
-					queriesIds: data.queriesIds,
-					tempLastSeenIds: {},
-					tempFirstPostIds: {},
-					ignoreList: {}
-				};
-
-				/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior */
-				// If there are data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet
+				/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior
+				 * If there is data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet */
 				if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
 				{
 					var tempIds = [];
@@ -48,65 +40,68 @@ chrome.tabs.onRemoved.addListener(() => {
 					{
 						if (data.lastSeenIds.hasOwnProperty(query))
 						{
-							if (objectToSave.queriesIds.indexOf(query) === -1)
-								objectToSave.queriesIds.push(query);
+							if (data.queriesIds.indexOf(query) === -1)
+								data.queriesIds.push(query);
 
-							tempIds[objectToSave.queriesIds.indexOf(query)] = data.lastSeenIds[query];
+							tempIds[data.queriesIds.indexOf(query)] = data.lastSeenIds[query];
 						}
 					}
 
-					data.lastSeenIds = objectToSave.lastSeenIds = tempIds;
+					data.lastSeenIds = tempIds;
+
+					tempIds = [];
 
 					// Transfering firstPostIds
 					for (let query in data.firstPostIds)
 					{
 						if (data.firstPostIds.hasOwnProperty(query))
 						{
-							if (objectToSave.queriesIds.indexOf(query) === -1)
-								objectToSave.queriesIds.push(query);
+							if (data.queriesIds.indexOf(query) === -1)
+								data.queriesIds.push(query);
 
-							tempIds[objectToSave.queriesIds.indexOf(query)] = data.firstPostIds[query];
+							tempIds[data.queriesIds.indexOf(query)] = data.firstPostIds[query];
 						}
 					}
 
-					data.firstPostIds = objectToSave.firstPostIds = tempIds;
+					data.firstPostIds = tempIds;
 				}
+				// Transfer end
 
 				if (data.indicateLastSeen)
 				{
-					objectToSave.lastSeenIds = data.lastSeenIds;
-
 					for (let query in data.tempLastSeenIds)
 					{
 						// Don't save ignored queries
-						if (!data.ignoreList[query])
+						if (data.tempLastSeenIds.hasOwnProperty(query) && !data.ignoreList[query])
 						{
-							if (objectToSave.queriesIds.indexOf(query) === -1)
-								objectToSave.queriesIds.push(query);
+							if (data.queriesIds.indexOf(query) === -1)
+								data.queriesIds.push(query);
 
-							objectToSave.lastSeenIds[objectToSave.queriesIds.indexOf(query)] = data.tempLastSeenIds[query];
+							data.lastSeenIds[data.queriesIds.indexOf(query)] = data.tempLastSeenIds[query];
 						}
 					}
 				}
 
 				if (data.indicateFirstPost)
 				{
-					objectToSave.firstPostIds = data.firstPostIds;
-
 					for (let query in data.tempFirstPostIds)
 					{
 						// Don't save ignored queries
-						if (!data.ignoreList[query])
+						if (data.tempFirstPostIds.hasOwnProperty(query) && !data.ignoreList[query])
 						{
-							if (objectToSave.queriesIds.indexOf(query) === -1)
-								objectToSave.queriesIds.push(query);
+							if (data.queriesIds.indexOf(query) === -1)
+								data.queriesIds.push(query);
 
-							objectToSave.firstPostIds[objectToSave.queriesIds.indexOf(query)] = data.tempFirstPostIds[query];
+							data.firstPostIds[data.queriesIds.indexOf(query)] = data.tempFirstPostIds[query];
 						}
 					}
 				}
 
-				chrome.storage.sync.set(objectToSave);
+				data.tempLastSeenIds = {};
+				data.tempFirstPostIds = {};
+				data.ignoreList = {};
+
+				chrome.storage.sync.set(data);
 			}
 		});
 	});
