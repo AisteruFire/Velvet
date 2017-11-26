@@ -16,21 +16,21 @@ chrome.browserAction.onClicked.addListener(() => {
 
 // When a tab is closed, checks if Derpibooru is still open. If it isn't, save all Velvet reminder id
 chrome.tabs.onRemoved.addListener(() => {
-	chrome.storage.sync.get({
-		indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
-		indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
-		lastSeenIds: [],
-		firstPostIds: [],
-		queriesIds: [],
-		tempLastSeenIds: {},
-		tempFirstPostIds: {},
-		ignoreList: {}
-	}, data => {
-		chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*", "*://derpicdn.net/*"] }, tabs => {
-			if (tabs.length === 0)
-			{
+	chrome.tabs.query({ url: ["*://*.derpibooru.org/*", "*://*.trixiebooru.org/*", "*://derpicdn.net/*"] }, tabs => {
+		if (tabs.length === 0)
+		{
+			chrome.storage.sync.get({
+				indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
+				indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
+				lastSeenIds: [],
+				firstPostIds: [],
+				queriesIds: [],
+				tempLastSeenIds: {},
+				tempFirstPostIds: {},
+				ignoreList: {}
+			}, data => {
 				/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior
-				 * If there is data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet */
+				* If there is data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet */
 				if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
 				{
 					var tempIds = [];
@@ -97,12 +97,30 @@ chrome.tabs.onRemoved.addListener(() => {
 					}
 				}
 
+				/* I noticed that my lists of ids contain some entries that are at null or contain the same number as the entry's index for some reason.
+				* This cleans them to free some space */
+				for (let i = 0; i < data.lastSeenIds.length; i++)
+				{
+					if (data.lastSeenIds[i] === null || data.lastSeenIds[i] === String(i))
+					{
+						data.lastSeenIds.splice(i, 1);
+					}
+				}
+
+				for (let i = 0; i < data.firstPostIds.length; i++)
+				{
+					if (data.firstPostIds[i] === null || data.firstPostIds[i] === String(i))
+					{
+						data.firstPostIds.splice(i, 1);
+					}
+				}
+
 				data.tempLastSeenIds = {};
 				data.tempFirstPostIds = {};
 				data.ignoreList = {};
 
 				chrome.storage.sync.set(data);
-			}
-		});
+			});
+		}
 	});
 });

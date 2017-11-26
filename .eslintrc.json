@@ -29,7 +29,8 @@
 				"allowShortCircuit": true,
 				"allowTernary": true
 			}
-		]
+		],
+		"no-mixed-spaces-and-tabs": "warn"
 	},
 	"globals": {
 		"DEFAULT_QUICK_TAGS": false,
