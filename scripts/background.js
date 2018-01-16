@@ -21,105 +21,113 @@ chrome.tabs.onRemoved.addListener(() => {
 		{
 			chrome.storage.sync.get({
 				indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
-				indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
-				lastSeenIds: [],
-				firstPostIds: [],
-				queriesIds: [],
-				tempLastSeenIds: {},
-				tempFirstPostIds: {},
-				ignoreList: {}
-			}, data => {
-				/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior
-				* If there is data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet */
-				if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
-				{
-					var tempIds = [];
+				indicateFirstPost: DEFAULT_INDICATE_FIRST_POST
+			}, preferences => {
+				let indicateLastSeen = preferences.indicateLastSeen;
+				let indicateFirstPost = preferences.indicateFirstPost;
 
-					// Transfering lastSeenIds
-					for (let query in data.lastSeenIds)
+				chrome.storage.local.get({
+					indicateLastSeen: DEFAULT_INDICATE_LAST_SEEN,
+					indicateFirstPost: DEFAULT_INDICATE_FIRST_POST,
+					lastSeenIds: [],
+					firstPostIds: [],
+					queriesIds: [],
+					tempLastSeenIds: {},
+					tempFirstPostIds: {},
+					ignoreList: {}
+				}, data => {
+					/* This code is to make the transition for versions 1.3.6+, in case the user still has data from 1.3.5 and prior
+					* If there is data stored in lastSeenIds or in firstPostIds but not in queriesIds, it means the data from 1.3.5 hasn't been transfered yet */
+					if ((Object.keys(data.lastSeenIds).length !== 0 || Object.keys(data.firstPostIds).length !== 0) && data.queriesIds.length === 0)
 					{
-						if (data.lastSeenIds.hasOwnProperty(query))
-						{
-							if (data.queriesIds.indexOf(query) === -1)
-								data.queriesIds.push(query);
+						var tempIds = [];
 
-							tempIds[data.queriesIds.indexOf(query)] = data.lastSeenIds[query];
+						// Transfering lastSeenIds
+						for (let query in data.lastSeenIds)
+						{
+							if (data.lastSeenIds.hasOwnProperty(query))
+							{
+								if (data.queriesIds.indexOf(query) === -1)
+									data.queriesIds.push(query);
+
+								tempIds[data.queriesIds.indexOf(query)] = data.lastSeenIds[query];
+							}
+						}
+
+						data.lastSeenIds = tempIds;
+
+						tempIds = [];
+
+						// Transfering firstPostIds
+						for (let query in data.firstPostIds)
+						{
+							if (data.firstPostIds.hasOwnProperty(query))
+							{
+								if (data.queriesIds.indexOf(query) === -1)
+									data.queriesIds.push(query);
+
+								tempIds[data.queriesIds.indexOf(query)] = data.firstPostIds[query];
+							}
+						}
+
+						data.firstPostIds = tempIds;
+					}
+					// Transfer end
+
+					if (indicateLastSeen)
+					{
+						for (let query in data.tempLastSeenIds)
+						{
+							// Don't save ignored queries
+							if (data.tempLastSeenIds.hasOwnProperty(query) && !data.ignoreList[query])
+							{
+								if (data.queriesIds.indexOf(query) === -1)
+									data.queriesIds.push(query);
+
+								data.lastSeenIds[data.queriesIds.indexOf(query)] = data.tempLastSeenIds[query];
+							}
 						}
 					}
 
-					data.lastSeenIds = tempIds;
-
-					tempIds = [];
-
-					// Transfering firstPostIds
-					for (let query in data.firstPostIds)
+					if (indicateFirstPost)
 					{
-						if (data.firstPostIds.hasOwnProperty(query))
+						for (let query in data.tempFirstPostIds)
 						{
-							if (data.queriesIds.indexOf(query) === -1)
-								data.queriesIds.push(query);
+							// Don't save ignored queries
+							if (data.tempFirstPostIds.hasOwnProperty(query) && !data.ignoreList[query])
+							{
+								if (data.queriesIds.indexOf(query) === -1)
+									data.queriesIds.push(query);
 
-							tempIds[data.queriesIds.indexOf(query)] = data.firstPostIds[query];
+								data.firstPostIds[data.queriesIds.indexOf(query)] = data.tempFirstPostIds[query];
+							}
 						}
 					}
 
-					data.firstPostIds = tempIds;
-				}
-				// Transfer end
-
-				if (data.indicateLastSeen)
-				{
-					for (let query in data.tempLastSeenIds)
+					/* I noticed that my lists of ids contain some entries that are at null or contain the same number as the entry's index for some reason.
+					* This cleans them to free some space */
+					for (let i = 0; i < data.lastSeenIds.length; i++)
 					{
-						// Don't save ignored queries
-						if (data.tempLastSeenIds.hasOwnProperty(query) && !data.ignoreList[query])
+						if (data.lastSeenIds[i] === null || data.lastSeenIds[i] === String(i))
 						{
-							if (data.queriesIds.indexOf(query) === -1)
-								data.queriesIds.push(query);
-
-							data.lastSeenIds[data.queriesIds.indexOf(query)] = data.tempLastSeenIds[query];
+							data.lastSeenIds.splice(i, 1);
 						}
 					}
-				}
 
-				if (data.indicateFirstPost)
-				{
-					for (let query in data.tempFirstPostIds)
+					for (let i = 0; i < data.firstPostIds.length; i++)
 					{
-						// Don't save ignored queries
-						if (data.tempFirstPostIds.hasOwnProperty(query) && !data.ignoreList[query])
+						if (data.firstPostIds[i] === null || data.firstPostIds[i] === String(i))
 						{
-							if (data.queriesIds.indexOf(query) === -1)
-								data.queriesIds.push(query);
-
-							data.firstPostIds[data.queriesIds.indexOf(query)] = data.tempFirstPostIds[query];
+							data.firstPostIds.splice(i, 1);
 						}
 					}
-				}
 
-				/* I noticed that my lists of ids contain some entries that are at null or contain the same number as the entry's index for some reason.
-				* This cleans them to free some space */
-				for (let i = 0; i < data.lastSeenIds.length; i++)
-				{
-					if (data.lastSeenIds[i] === null || data.lastSeenIds[i] === String(i))
-					{
-						data.lastSeenIds.splice(i, 1);
-					}
-				}
+					data.tempLastSeenIds = {};
+					data.tempFirstPostIds = {};
+					data.ignoreList = {};
 
-				for (let i = 0; i < data.firstPostIds.length; i++)
-				{
-					if (data.firstPostIds[i] === null || data.firstPostIds[i] === String(i))
-					{
-						data.firstPostIds.splice(i, 1);
-					}
-				}
-
-				data.tempLastSeenIds = {};
-				data.tempFirstPostIds = {};
-				data.ignoreList = {};
-
-				chrome.storage.sync.set(data);
+					chrome.storage.local.set(data);
+				});
 			});
 		}
 	});

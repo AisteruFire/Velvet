@@ -71,7 +71,7 @@ document.querySelector("form.edit_user").addEventListener("submit", () => {
 	quickTags = quickTags.replace(andFlag, newAndFlag).replace(orFlag, newOrFlag).replace(preferedAnd, newPreferedAnd).replace(preferedOr, newPreferedOr);
 	aliases = aliases.replace(andFlag, newAndFlag).replace(orFlag, newOrFlag).replace(preferedAnd, newPreferedAnd).replace(preferedOr, newPreferedOr);
 
-	chrome.storage.sync.set({
+	chrome.storage.local.set({
 		quickTags: quickTags,
 		aliases: aliases,
 		andFlag: newAndFlag,
