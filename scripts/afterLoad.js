@@ -156,8 +156,8 @@ if ((!sorting || sorting[1]) && (!order || order[1]) && query && mediaBoxes)
 				}
 			}
 
-			// Don't remember ids this time (in case the user wants to resume browsing another day)
-			if (indicateLastSeen || indicateFirstPost)
+			// Don't remember ids this time (in case the user wants to resume browsing another day, or if the query contains an id)
+			if (indicateLastSeen || indicateFirstPost || query.match(/.*id(\..+)?:.*/))
 			{
 				// Toogles the checkbox's checking according to the user's choice
 				let checked = data.ignoreList[query] ? "checked" : "";
