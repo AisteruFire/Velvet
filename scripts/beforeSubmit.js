@@ -21,7 +21,7 @@ chrome.storage.sync.get({
 	if (data.quickTags)
 	{
 		var searchBar = document.querySelector("form.header__search");
-		searchBar.insertAdjacentHTML("beforeend", `<button title="` + QUICK_TAGS_BUTTON_TITLE + `" class="header__search__button" type="submit" style="height: 26px">`);
+		searchBar.insertAdjacentHTML("beforeend", `<button class="header__search__button" title="` + QUICK_TAGS_BUTTON_TITLE + `" type="submit" style="vertical-align: middle;">`);
 
 		var quickButton = document.querySelector(`button[title="` + QUICK_TAGS_BUTTON_TITLE + `"]`);
 		var searchField = document.getElementById("q");
